@@ -7,6 +7,8 @@ import { Menu, X } from "lucide-react";
 import GooeyNav from "@/components/ui/GooeyNav";
 import { navLinks } from "@/features/landing/shared/data/nav";
 
+const darkHeroRoutes = ["/", "/tentang-kami"];
+
 export default function Navbar() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
@@ -24,7 +26,7 @@ export default function Navbar() {
   );
 
   // Transparan hanya di Beranda (yang punya hero gelap) dan saat posisi paling atas.
-  const solid = scrolled || open || pathname !== "/";
+  const solid = scrolled || open || !darkHeroRoutes.includes(pathname);
 
   return (
     <header
