@@ -1,7 +1,6 @@
-// features/landing/produk/sections/CtaProduk.tsx
-import Link from "next/link";
 import { MessageCircle } from "lucide-react";
 import Pill from "@/components/ui/Pill";
+import SpecularLink from "@/components/ui/SpecularLink";
 
 export default function CtaProduk() {
   return (
@@ -18,19 +17,13 @@ export default function CtaProduk() {
           profesional berlisensi resmi BAPPEBTI.
         </p>
 
-        <div className="mt-6 flex flex-wrap gap-3">
-          <Link
-            href="#"
-            className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-[13px] font-semibold text-ink hover:bg-surface"
-          >
+        <div className="mt-7 flex flex-wrap gap-3">
+          <SpecularLink href="#" variant="light">
             <MessageCircle size={16} className="text-bull" /> Chat WhatsApp
-          </Link>
-          <Link
-            href="/kontak"
-            className="inline-flex items-center rounded-full border border-white/40 px-5 py-3 text-[13px] font-semibold hover:bg-white/10"
-          >
+          </SpecularLink>
+          <SpecularLink href="/kontak" variant="ghost">
             Hubungi Kami
-          </Link>
+          </SpecularLink>
         </div>
       </div>
     </section>

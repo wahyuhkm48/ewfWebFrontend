@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import SpecularLink from "@/components/ui/SpecularLink";
 
 export default function CtaLegal() {
   return (
@@ -11,18 +11,12 @@ export default function CtaLegal() {
           pialang berlisensi resmi EWF.
         </p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
-          <Link
-            href="#legalitas"
-            className="rounded-full bg-white px-6 py-3 text-[13px] font-semibold text-ink transition hover:bg-surface"
-          >
+          <SpecularLink href="#legalitas" variant="light">
             Lihat Dokumen Legalitas
-          </Link>
-          <Link
-            href="/kontak"
-            className="inline-flex items-center gap-2 rounded-full bg-brand px-6 py-3 text-[13px] font-semibold transition hover:bg-brand/90"
-          >
+          </SpecularLink>
+          <SpecularLink href="/kontak" variant="primary">
             Hubungi Kami <ArrowRight size={16} />
-          </Link>
+          </SpecularLink>
         </div>
       </div>
     </section>

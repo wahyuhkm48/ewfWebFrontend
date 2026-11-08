@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { MessageCircle, CalendarDays } from "lucide-react";
+import SpecularLink from "@/components/ui/SpecularLink";
 
 export default function CtaConsult() {
   return (
@@ -21,18 +22,12 @@ export default function CtaConsult() {
         </div>
 
         <div className="flex flex-col gap-3 sm:flex-row lg:justify-end">
-          <Link
-            href="#"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-white px-5 py-3 text-[13px] font-semibold text-ink hover:bg-surface"
-          >
+          <SpecularLink href="#" variant="light">
             <MessageCircle size={16} className="text-bull" /> Chat WhatsApp Resmi
-          </Link>
-          <Link
-            href="/kontak"
-            className="inline-flex items-center justify-center gap-2 rounded-full border border-white/40 px-5 py-3 text-[13px] font-semibold hover:bg-white/10"
-          >
+          </SpecularLink>
+          <SpecularLink href="/kontak" variant="ghost">
             <CalendarDays size={16} /> Kirim Pesan / Janji Temu
-          </Link>
+          </SpecularLink>
         </div>
       </div>
     </section>

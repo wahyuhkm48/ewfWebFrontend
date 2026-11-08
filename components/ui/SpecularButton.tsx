@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, type ButtonHTMLAttributes, type CSSProperties, type ReactNode } from 'react';
+import { releaseWebGL } from "@/lib/webgl";
 
 const SIZES: Record<SpecularButtonSize, string> = {
   sm: 'px-5 py-2.5 text-[0.875rem]',
@@ -471,6 +472,7 @@ const SpecularButton = ({
       gl.deleteBuffer(buffer);
       gl.deleteVertexArray(vao);
       gl.deleteProgram(program);
+      releaseWebGL(gl, canvas);
     };
   }, []);
 

@@ -1,9 +1,9 @@
 import Image from "next/image";
 import { ArrowRight, ShieldCheck } from "lucide-react";
-import SpecularButton from "@/components/ui/SpecularButton";
+import StrokeText from "@/components/ui/StrokeText";
+import GlassChip from "@/components/ui/GlassChip";
 import SpecularLink from "@/components/ui/SpecularLink";
 import { heroBadges } from "@/features/landing/produk/data";
-import StrokeText from "@/components/ui/StrokeText";
 
 const HERO_TEXT_SIZE = "clamp(2.25rem, 5vw, 5.5rem)";
 
@@ -22,7 +22,6 @@ export default function Hero() {
         <div className="absolute inset-0 bg-linear-to-r from-navy/95 via-navy/60 to-navy/20" />
         <div className="absolute inset-x-0 top-0 h-32 bg-linear-to-b from-navy/70 to-transparent" />
 
-        {/* Teks raksasa dekoratif */}
         <span
           aria-hidden="true"
           className="pointer-events-none absolute -bottom-6 right-4 select-none font-display font-extrabold leading-none text-white/10 sm:right-10"
@@ -32,42 +31,31 @@ export default function Hero() {
         </span>
 
         <div className="relative mx-auto max-w-7xl px-4 pb-24 pt-32 sm:px-6 lg:pb-32 lg:pt-40">
-          {/* Pill status */}
-          <SpecularButton
-            size="sm"
-            radius={999}
-            tint="#ec7013"
-            tintOpacity={0.15}
-            lineColor="#ffb27a"
-            baseColor="#ec7013"
-            textColor="#ffffff"
-            blur={6}
-            className="px-3! py-1.5! text-[10px]! uppercase tracking-[0.12em]! cursor-default!"
-          >
+          <GlassChip className="text-[10px]! uppercase tracking-[0.12em]">
             <span className="h-1.5 w-1.5 rounded-full bg-brand" />
             Produk Resmi Multilateral
-          </SpecularButton>
-          
+          </GlassChip>
+
           <h1
             aria-label="Produk Pasar"
             className="mt-5 flex flex-nowrap items-center gap-x-[0.1em]"
             style={{ fontSize: HERO_TEXT_SIZE }}
           >
             <StrokeText
-                text="PRODUK"
-                align="left"
-                size={HERO_TEXT_SIZE}
-                strokeColor="#f7f5f2"
-                fillColor="#f7f5f2"
-                className="w-auto! shrink-0"
+              text="PRODUK"
+              align="left"
+              size={HERO_TEXT_SIZE}
+              strokeColor="#f7f5f2"
+              fillColor="#f7f5f2"
+              className="w-auto! shrink-0"
             />
             <StrokeText
-                text="PASAR"
-                align="left"
-                size={HERO_TEXT_SIZE}
-                strokeColor="#ec7013"
-                fillColor="#ec7013"
-                className="w-auto! shrink-0"
+              text="PASAR"
+              align="left"
+              size={HERO_TEXT_SIZE}
+              strokeColor="#ec7013"
+              fillColor="#ec7013"
+              className="w-auto! shrink-0"
             />
           </h1>
 
@@ -76,35 +64,11 @@ export default function Hero() {
             terdaftar dan diawasi resmi oleh BAPPEBTI.
           </p>
 
-          {/* CTA */}
           <div className="mt-7 flex flex-wrap gap-3">
-            <SpecularLink
-              href="#produk"
-              size="sm"
-              radius={999}
-              tint="#ec7013"
-              tintOpacity={0.9}
-              lineColor="#ffd2ad"
-              baseColor="#ec7013"
-              textColor="#ffffff"
-              blur={4}
-              className="px-6! py-3! text-[13px]! font-semibold! shadow-[0_10px_30px_-8px_rgba(236,112,19,0.7)]!"
-            >
+            <SpecularLink href="#produk" variant="primary">
               Bandingkan Produk <ArrowRight size={16} />
             </SpecularLink>
-
-            <SpecularLink
-              href="/analisa"
-              size="sm"
-              radius={999}
-              tint="#ffffff"
-              tintOpacity={0.06}
-              lineColor="#ffffff"
-              baseColor="#525252"
-              textColor="#ffffff"
-              blur={6}
-              className="px-6! py-3! text-[13px]! font-semibold!"
-            >
+            <SpecularLink href="/analisa" variant="ghost">
               Baca Analisa Pasar <ArrowRight size={16} />
             </SpecularLink>
           </div>
@@ -114,29 +78,15 @@ export default function Hero() {
             untuk semua investor.
           </p>
 
-          {/* Badge legalitas */}
           <ul className="mt-10 flex flex-wrap gap-3">
-            {heroBadges.map((b, i) => {
-              const isLegal = i === 0;
-              return (
-                <li key={b}>
-                  <SpecularButton
-                    size="sm"
-                    radius={999}
-                    tint={isLegal ? "#16a34a" : "#ffffff"}
-                    tintOpacity={isLegal ? 0.2 : 0.06}
-                    lineColor={isLegal ? "#4ade80" : "#ffffff"}
-                    baseColor={isLegal ? "#16a34a" : "#525252"}
-                    textColor="#ffffff"
-                    blur={6}
-                    className="px-3! py-1.5! text-[11px]! cursor-default!"
-                  >
-                    {isLegal && <ShieldCheck size={13} className="text-bull" />}
-                    {b}
-                  </SpecularButton>
-                </li>
-              );
-            })}
+            {heroBadges.map((b, i) => (
+              <li key={b}>
+                <GlassChip tone={i === 0 ? "green" : "neutral"}>
+                  {i === 0 && <ShieldCheck size={13} className="text-bull" />}
+                  {b}
+                </GlassChip>
+              </li>
+            ))}
           </ul>
         </div>
       </div>

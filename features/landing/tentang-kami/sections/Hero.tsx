@@ -2,7 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, BadgeCheck, Lock, Network } from "lucide-react";
 import StrokeText from "@/components/ui/StrokeText";
-import SpecularButton from "@/components/ui/SpecularButton";
+import GlassChip from "@/components/ui/GlassChip";
+import SpecularLink from "@/components/ui/SpecularLink";
 
 const HERO_TEXT_SIZE = "clamp(1.5rem, 4.2vw, 3.25rem)";
 
@@ -13,22 +14,7 @@ function Chip({
   children: React.ReactNode;
   green?: boolean;
 }) {
-  return (
-    <SpecularButton
-      tabIndex={-1}
-      size="sm"
-      radius={999}
-      blur={8}
-      textColor="#ffffff"
-      tint={green ? "#16a34a" : "#ffffff"}
-      tintOpacity={green ? 0.25 : 0.08}
-      lineColor={green ? "#4ade80" : "#ffffff"}
-      baseColor={green ? "#16a34a" : "#64748b"}
-      className="cursor-default! gap-1.5! px-3! py-1.5! text-[11px]! font-medium!"
-    >
-      {children}
-    </SpecularButton>
-  );
+  return <GlassChip tone={green ? "green" : "neutral"}>{children}</GlassChip>;
 }
 
 export default function Hero() {
@@ -105,18 +91,12 @@ export default function Hero() {
           </ul>
 
           <div className="mt-7 flex flex-wrap gap-3">
-            <Link
-              href="#profil"
-              className="inline-flex items-center gap-2 rounded-full bg-brand px-6 py-3 text-[13px] font-semibold shadow-[0_10px_30px_-8px_rgba(236,112,19,0.7)] transition hover:bg-brand/90"
-            >
-              Profil Perusahaan <ArrowRight size={16} />
-            </Link>
-            <Link
-              href="#legalitas"
-              className="inline-flex items-center gap-2 rounded-full border border-white/40 px-6 py-3 text-[13px] font-semibold transition hover:bg-white/10"
-            >
-              <Network size={16} /> Struktur Legalitas
-            </Link>
+            <SpecularLink href="#profil" variant="primary">
+                Profil Perusahaan <ArrowRight size={16} />
+            </SpecularLink>
+            <SpecularLink href="#legalitas" variant="ghost">
+                <Network size={16} /> Struktur Legalitas
+            </SpecularLink>
           </div>
         </div>
       </div>

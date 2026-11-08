@@ -3,7 +3,8 @@ import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import StrokeText from "@/components/ui/StrokeText";
 import { heroTags } from "@/features/landing/beranda/data";
-import SpecularButton from "@/components/ui/SpecularButton";
+import GlassChip from "@/components/ui/GlassChip";
+import SpecularLink from "@/components/ui/SpecularLink";
 
 const HERO_TEXT_SIZE = "clamp(2.25rem, 4.1vw, 5rem)";
 
@@ -49,41 +50,22 @@ export default function Hero() {
             </p>
 
             <ul className="mt-6 flex flex-wrap gap-2">
-              {heroTags.map((t, i) => {
-                const isLegal = i === heroTags.length - 1;
-                return (
-                  <li key={t}>
-                    <SpecularButton
-                      size="sm"
-                      radius={999}
-                      tint={isLegal ? "#16a34a" : "#ffffff"}
-                      tintOpacity={isLegal ? 0.25 : 0.08}
-                      lineColor={isLegal ? "#4ade80" : "#ffffff"}
-                      baseColor={isLegal ? "#16a34a" : "#525252"}
-                      textColor="#ffffff"
-                      blur={6}
-                      className="px-3! py-1.5! text-xs! cursor-default!"
-                    >
-                      {t}
-                    </SpecularButton>
-                  </li>
-                );
-              })}
+              {heroTags.map((t, i) => (
+                <li key={t}>
+                  <GlassChip tone={i === heroTags.length - 1 ? "green" : "neutral"}>
+                    {t}
+                  </GlassChip>
+                </li>
+              ))}
             </ul>
 
             <div className="mt-7 flex flex-wrap gap-3">
-              <Link
-                href="/tentang-kami"
-                className="inline-flex items-center gap-2 rounded-full bg-brand px-6 py-3 text-[13px] font-semibold shadow-[0_10px_30px_-8px_rgba(236,112,19,0.7)] transition hover:bg-brand/90"
-              >
+              <SpecularLink href="/tentang-kami" variant="primary">
                 Kenali Kami <ArrowRight size={16} />
-              </Link>
-              <Link
-                href="/produk"
-                className="inline-flex items-center gap-2 rounded-full border border-white/40 px-6 py-3 text-[13px] font-semibold transition hover:bg-white/10"
-              >
+              </SpecularLink>
+              <SpecularLink href="/produk" variant="ghost">
                 Lihat Produk <ArrowRight size={16} />
-              </Link>
+              </SpecularLink>
             </div>
           </div>
         </div>

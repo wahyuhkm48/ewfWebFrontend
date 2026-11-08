@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState, type CSSProperties, type HTMLAttributes } from 'react';
+import { releaseWebGL } from "@/lib/webgl";
 
 export type GalleryItem = {
   image: string;
@@ -1171,6 +1172,7 @@ const CircularGallery = ({
       gl.deleteBuffer(vertexBuffer);
       gl.deleteBuffer(indexBuffer);
       gl.deleteVertexArray(vao);
+      releaseWebGL(gl, canvas);
     };
   }, []);
 

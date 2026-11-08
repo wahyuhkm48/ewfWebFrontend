@@ -12,6 +12,7 @@ import {
   type ReactNode
 } from 'react';
 
+import { releaseWebGL } from "@/lib/webgl";
 
 const useIsomorphicLayoutEffect = typeof window === 'undefined' ? useEffect : useLayoutEffect;
 
@@ -850,6 +851,7 @@ const GooeyNav = ({
       if (gl && pipeline) {
         gl.deleteBuffer(pipeline.buffer);
         gl.deleteProgram(pipeline.program);
+        releaseWebGL(gl, canvas);
       }
       engineRef.current = null;
     };
