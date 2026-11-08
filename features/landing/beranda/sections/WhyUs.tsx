@@ -4,7 +4,7 @@ import { stats } from "@/features/landing/beranda/data";
 
 export default function WhyUs() {
   return (
-    <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6">
+    <section className="mx-auto max-w-7xl px-4 py-25 sm:px-6">
       <div className="grid gap-10 lg:grid-cols-2 lg:items-center">
         <div>
           <SectionHeading

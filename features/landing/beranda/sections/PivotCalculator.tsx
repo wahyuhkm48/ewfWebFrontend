@@ -40,7 +40,7 @@ export default function PivotCalculator() {
     "type-data mt-1 w-full rounded-lg border border-white/10 bg-navy px-3 py-2 text-white outline-none focus:border-brand";
 
   return (
-    <section className="mx-auto max-w-7xl px-4 pb-20 sm:px-6">
+    <section className="mx-auto max-w-7xl px-4 pb-30 sm:px-6">
       <div className="grid gap-10 rounded-3xl bg-navy p-6 text-white sm:p-10 lg:grid-cols-2">
         <div className="self-center">
           <span className="type-label rounded-full border border-brand/40 px-3 py-1 text-[11px] text-brand">

@@ -4,7 +4,7 @@ import { steps } from "@/features/landing/beranda/data";
 
 export default function Steps() {
   return (
-    <section className="mx-auto max-w-7xl px-4 pb-20 sm:px-6">
+    <section className="mx-auto max-w-7xl px-4 pb-55 sm:px-6">
       <SectionHeading
         center
         eyebrow="Mudah & Terpandu"

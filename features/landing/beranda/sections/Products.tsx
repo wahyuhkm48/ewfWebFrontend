@@ -12,14 +12,14 @@ const items = products.map((p) => ({
 
 export default function Products() {
   return (
-    <section className="mx-auto max-w-7xl px-4 pb-50 sm:px-6">
+    <section className="mx-auto max-w-7xl px-4 pb-55 sm:px-6">
       <SectionHeading
         eyebrow="Portofolio Pasar"
         title="Produk yang Kami Tawarkan"
         desc="Perdagangkan komoditi unggulan global dan indeks bursa terkemuka Asia."
       />
 
-      <div className="relative mt-8 h-[600px] overflow-hidden">
+      <div className="relative h-[600px] overflow-hidden">
         <CircularGallery
           items={items}
           bend={3}

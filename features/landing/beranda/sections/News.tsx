@@ -5,7 +5,7 @@ import { news } from "@/features/landing/shared/data/news";
 
 export default function News() {
   return (
-    <section className="mx-auto max-w-7xl px-4 pb-20 sm:px-6">
+    <section className="mx-auto max-w-7xl px-4 pb-50 sm:px-6">
       <div className="flex items-end justify-between gap-4">
         <SectionHeading eyebrow="Kabar Terkini" title="Berita Pasar Finansial Global" />
         <Link
