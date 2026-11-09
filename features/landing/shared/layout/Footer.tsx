@@ -52,9 +52,21 @@ export default function Footer() {
           <div>
             <p className="type-label text-white">Layanan Nasabah</p>
             <ul className="mt-4 space-y-3 text-sm">
-              <li className="flex items-center gap-2"><Phone size={14} /> (021) 2788-9333</li>
-              <li className="flex items-center gap-2"><Mail size={14} /> corporate@equityworld-futures.com</li>
-              <li className="flex items-center gap-2"><MessageCircle size={14} /> WhatsApp Official 24/5</li>
+              <li className="flex items-center gap-2">
+                <Phone size={14} />
+                <a href="tel:+622127889280" className="hover:text-white">
+                  +62 21 27889280
+                </a>
+              </li>
+              <li className="flex items-center gap-2">
+                <Mail size={14} />
+                <a
+                  href="mailto:corporate@equityworld-futures.co.id"
+                  className="hover:text-white"
+                >
+                  corporate@equityworld-futures.co.id
+                </a>
+              </li>
             </ul>
           </div>
         </div>

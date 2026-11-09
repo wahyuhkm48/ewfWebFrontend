@@ -37,8 +37,6 @@
   --color-destructive: var(--destructive);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-muted: var(--muted);
   --color-secondary-foreground: var(--secondary-foreground);
   --color-secondary: var(--secondary);
   --color-primary-foreground: var(--primary-foreground);
@@ -101,4 +99,18 @@
 
 html {
   scroll-behavior: smooth;
+}
+
+/* ===== ScrollStack di halaman Produk ===== */
+.product-stack {
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* Edge lama */
+}
+.product-stack::-webkit-scrollbar {
+  display: none;                /* Chrome, Safari, Edge */
+}
+.product-stack .scroll-stack-inner {
+  padding-left: 1.25rem;        /* bawaan 5rem; sisakan sedikit untuk bayangan */
+  padding-right: 1.25rem;
+  padding-top: 2rem;            /* bawaan 20vh */
 }

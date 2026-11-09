@@ -19,8 +19,8 @@ export default function CompanyProfile() {
           </p>
           <p className="mt-4 text-[15px] leading-7 text-muted">
             Sejak mulai beroperasi pada tahun 2005, EWF terus tumbuh dan
-            memperluas jangkauan layanan hingga memiliki tujuh kantor
-            operasional di Jakarta, Surabaya, Semarang, Manado, dan Cirebon.
+            memperluas jangkauan layanan hingga memiliki enam kantor
+            operasional di Jakarta, Surabaya, Semarang, dan Cirebon.
             Sebagai perusahaan pialang berjangka resmi, EWF terdaftar dan
             diawasi oleh Badan Pengawas Perdagangan Berjangka Komoditi
             (BAPPEBTI), Otoritas Jasa Keuangan (OJK), dan Bank Indonesia (BI),
@@ -68,8 +68,8 @@ export default function CompanyProfile() {
               <Building2 size={16} />
             </span>
             <div>
-              <p className="text-sm font-bold text-ink">7 Kantor Operasional</p>
-              <p className="type-micro text-muted">Di 5 Kota Strategis Indonesia</p>
+              <p className="text-sm font-bold text-ink">6 Kantor Operasional</p>
+              <p className="type-micro text-muted">Di 4 Kota Strategis Indonesia</p>
             </div>
           </div>
         </div>

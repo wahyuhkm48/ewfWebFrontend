@@ -1,4 +1,3 @@
-// features/landing/produk/sections/ProductDetail.tsx
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
@@ -13,11 +12,11 @@ export default function ProductDetail({ product: p, reverse }: Props) {
   return (
     <article
       id={p.slug}
-      className={`scroll-mt-24 rounded-3xl p-6 sm:p-10 ${
-        reverse ? "bg-softgrey" : "bg-white shadow-sm"
+      className={`scroll-mt-24 rounded-3xl border border-black/5 p-5 shadow-xl lg:p-6 ${
+        reverse ? "bg-softgrey" : "bg-white"
       }`}
     >
-      <div className="grid items-center gap-10 lg:grid-cols-2">
+      <div className="grid items-center gap-8 lg:grid-cols-2">
         {/* Gambar + kartu harga */}
         <div className={reverse ? "lg:order-2" : ""}>
           <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-navy">
@@ -49,15 +48,15 @@ export default function ProductDetail({ product: p, reverse }: Props) {
         {/* Konten */}
         <div>
           <Pill tone={reverse ? "white" : "light"}>{p.category}</Pill>
-          <h2 className="type-h2 mt-4 text-ink">{p.title}</h2>
-          <p className="mt-3 text-[15px] leading-7 text-muted">{p.desc}</p>
+          <h2 className="type-h2 mt-3 text-ink">{p.title}</h2>
+          <p className="mt-2 text-[14px] leading-6 text-muted">{p.desc}</p>
 
-          <p className="type-label mt-6 text-ink">Mengapa Diperdagangkan:</p>
-          <ul className="mt-3 grid gap-2 sm:grid-cols-3">
+          <p className="type-label mt-4 text-ink">Mengapa Diperdagangkan:</p>
+          <ul className="mt-2 grid gap-2 sm:grid-cols-3">
             {p.why.map((w) => (
               <li
                 key={w}
-                className={`rounded-lg px-3 py-2.5 text-[12px] font-medium text-ink ${
+                className={`rounded-lg px-3 py-2 text-[12px] font-medium text-ink ${
                   reverse ? "bg-white shadow-sm" : "bg-softgrey"
                 }`}
               >
@@ -67,7 +66,7 @@ export default function ProductDetail({ product: p, reverse }: Props) {
           </ul>
 
           <div
-            className={`mt-5 rounded-xl p-4 ${
+            className={`mt-4 rounded-xl p-3.5 ${
               reverse ? "bg-white shadow-sm" : "bg-softgrey"
             }`}
           >
@@ -77,7 +76,7 @@ export default function ProductDetail({ product: p, reverse }: Props) {
                 Standar Kliring KBI & BBJ
               </p>
             </div>
-            <dl className="mt-3 grid grid-cols-2 gap-x-6 gap-y-3 sm:grid-cols-3">
+            <dl className="mt-2.5 grid grid-cols-2 gap-x-5 gap-y-2.5 sm:grid-cols-3">
               {p.specs.map((s) => (
                 <div key={s.label}>
                   <dt className="type-micro text-muted">{s.label}</dt>
@@ -89,16 +88,16 @@ export default function ProductDetail({ product: p, reverse }: Props) {
             </dl>
           </div>
 
-          <div className="mt-5 grid grid-cols-3 gap-4">
+          <div className="mt-4 grid grid-cols-3 gap-4">
             <Stat label="Perubahan Harian" value={p.change} tone={up ? "up" : "down"} />
             <Stat label="Tertinggi Hari Ini" value={p.high} />
             <Stat label="Terendah Hari Ini" value={p.low} />
           </div>
 
-          <div className="mt-6 flex flex-wrap items-center gap-4">
+          <div className="mt-5 flex flex-wrap items-center gap-4">
             <Link
               href="/analisa"
-              className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-3 text-[13px] font-semibold text-white transition hover:bg-brand/90"
+              className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-[13px] font-semibold text-white transition hover:bg-brand/90"
             >
               {p.analysisLabel} <ChevronRight size={14} />
             </Link>
