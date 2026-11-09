@@ -1,4 +1,3 @@
-// features/landing/produk/sections/Faq.tsx
 import { ChevronDown } from "lucide-react";
 import { faqs } from "@/features/landing/produk/data";
 

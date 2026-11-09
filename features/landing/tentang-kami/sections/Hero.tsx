@@ -1,21 +1,10 @@
 import Image from "next/image";
-import Link from "next/link";
 import { ArrowRight, BadgeCheck, Lock, Network } from "lucide-react";
 import StrokeText from "@/components/ui/StrokeText";
 import GlassChip from "@/components/ui/GlassChip";
 import SpecularLink from "@/components/ui/SpecularLink";
 
 const HERO_TEXT_SIZE = "clamp(1.5rem, 4.2vw, 3.25rem)";
-
-function Chip({
-  children,
-  green = false,
-}: {
-  children: React.ReactNode;
-  green?: boolean;
-}) {
-  return <GlassChip tone={green ? "green" : "neutral"}>{children}</GlassChip>;
-}
 
 export default function Hero() {
   return (
@@ -34,21 +23,21 @@ export default function Hero() {
 
         <p
           aria-hidden="true"
-          className="pointer-events-none absolute inset-x-0 -bottom-[0.2em] select-none text-center font-display text-[clamp(4rem,17vw,15rem)] font-extrabold leading-none text-white/[0.07]"
+          className="pointer-events-none absolute inset-x-0 -bottom-[0.2em] select-none text-center font-display text-[clamp(4rem,17vw,12rem)] font-extrabold leading-none text-white/[0.07]"
         >
           EQUITYWORLD
         </p>
 
         <div className="relative mx-auto max-w-7xl px-4 pb-44 pt-32 sm:px-6 lg:pb-56 lg:pt-40">
           <div className="flex flex-wrap gap-2">
-            <Chip>
+            <GlassChip>
               <span className="h-1.5 w-1.5 rounded-full bg-bull" />
               Pialang Berjangka Terdaftar BAPPEBTI
-            </Chip>
-            <Chip>
+            </GlassChip>
+            <GlassChip>
               <BadgeCheck size={13} className="text-sapphire" />
               Izin No. 549/BAPPEBTI/SI/IX/2004
-            </Chip>
+            </GlassChip>
           </div>
 
           <h1 className="mt-6" aria-label="Mengenal Lebih Dekat Trust by Equityworld">
@@ -77,25 +66,25 @@ export default function Hero() {
 
           <ul className="mt-5 flex flex-wrap gap-2">
             <li>
-              <Chip>20+ Tahun Pengalaman Pialang</Chip>
+              <GlassChip>20+ Tahun Pengalaman Pialang</GlassChip>
             </li>
             <li>
-              <Chip>7 Kantor Operasional di 5 Kota</Chip>
+              <GlassChip>7 Kantor Operasional di 5 Kota</GlassChip>
             </li>
             <li>
-              <Chip green>
+              <GlassChip tone="green">
                 <Lock size={12} />
                 100% Rekening Terpisah (Segregated)
-              </Chip>
+              </GlassChip>
             </li>
           </ul>
 
           <div className="mt-7 flex flex-wrap gap-3">
             <SpecularLink href="#profil" variant="primary">
-                Profil Perusahaan <ArrowRight size={16} />
+              Profil Perusahaan <ArrowRight size={16} />
             </SpecularLink>
             <SpecularLink href="#legalitas" variant="ghost">
-                <Network size={16} /> Struktur Legalitas
+              <Network size={16} /> Struktur Legalitas
             </SpecularLink>
           </div>
         </div>

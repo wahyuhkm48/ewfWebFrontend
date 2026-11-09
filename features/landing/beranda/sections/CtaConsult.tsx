@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { MessageCircle, CalendarDays } from "lucide-react";
 import SpecularLink from "@/components/ui/SpecularLink";
 

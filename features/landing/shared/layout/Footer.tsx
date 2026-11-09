@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Phone, Mail, MessageCircle } from "lucide-react";
+import { Phone, Mail } from "lucide-react";
 import { navLinks } from "@/features/landing/shared/data/nav";
 
 const legal = [

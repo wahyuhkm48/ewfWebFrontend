@@ -6,14 +6,11 @@ export type ProductDetail = {
   name: string;
   title: string;
   desc: string;
-  shortDesc: string;
   image: string;
   priceLabel: string;
   price: string;
   change: string;
   changeAbs: string;
-  metricLabel: string; // "Harga Real-Time" | "Level Indeks"
-  spark: number[];
   why: string[];
   specs: Spec[];
   high: string;
@@ -38,15 +35,12 @@ export const productDetails: ProductDetail[] = [
     category: "Komoditas Logam Mulia",
     name: "Emas (Gold)",
     title: "Emas (Gold / XAUUSD)",
-    shortDesc: "Logam mulia, aset lindung nilai global.",
     desc: "Emas adalah komoditas multilateral paling likuid di dunia yang berfungsi sebagai aset lindung nilai (safe haven) terhadap inflasi dan gejolak geopolitik. Kontrak berjangka emas memberikan fleksibilitas transaksi dua arah dengan perlindungan segregasi perbankan resmi.",
     image: "/images/emas.png",
     priceLabel: "Harga Emas Dunia (XAUUSD)",
     price: "$2,348.50",
     change: "+1.42%",
     changeAbs: "+$32.90",
-    metricLabel: "Harga Real-Time",
-    spark: [10, 14, 12, 18, 16, 22, 20, 26],
     why: [
       "Likuiditas pasar global 24 jam",
       "Lindung nilai terhadap depresiasi mata uang",
@@ -62,15 +56,12 @@ export const productDetails: ProductDetail[] = [
     category: "Komoditas Energi",
     name: "Minyak Mentah",
     title: "Minyak Mentah (Crude Oil / WTI)",
-    shortDesc: "Komoditas energi paling aktif diperdagangkan.",
     desc: "Minyak mentah merupakan urat nadi rantai pasok industri global dengan volatilitas tinggi yang dipengaruhi oleh dinamika kuota produksi OPEC+, tensi geopolitik, serta proyeksi pertumbuhan ekonomi dunia.",
     image: "/images/minyak.png",
     priceLabel: "Minyak Mentah WTI Spot",
     price: "$84.50 / bbl",
     change: "+0.85%",
     changeAbs: "+$0.70",
-    metricLabel: "Harga Real-Time",
-    spark: [14, 12, 15, 13, 18, 17, 21, 24],
     why: [
       "Volatilitas tinggi untuk strategi harian",
       "Korelasi erat data makro & rilis inventori",
@@ -86,15 +77,12 @@ export const productDetails: ProductDetail[] = [
     category: "Indeks Saham Multilateral",
     name: "Hang Seng",
     title: "Hang Seng Index (HSI)",
-    shortDesc: "Indeks saham unggulan Hong Kong.",
     desc: "Indeks acuan pasar saham Hong Kong yang melacak performa perusahaan-perusahaan berkapitalisasi pasar terbesar, mencakup raksasa teknologi, institusi keuangan, dan konglomerasi properti terkemuka di Asia Timur.",
     image: "/images/hangseng.png",
     priceLabel: "Hang Seng Index (HSI)",
     price: "16,720.50 pts",
     change: "+1.85%",
     changeAbs: "+304.5",
-    metricLabel: "Level Indeks",
-    spark: [12, 16, 14, 19, 17, 23, 21, 27],
     why: [
       "Sentimen pasar modal ekonomi China & Asia",
       "Likuiditas tinggi saat jam bursa Asia",
@@ -110,15 +98,12 @@ export const productDetails: ProductDetail[] = [
     category: "Indeks Saham Jepang",
     name: "Nikkei 225",
     title: "Nikkei 225 (JPK / Tokyo Index)",
-    shortDesc: "Indeks saham utama bursa Tokyo.",
     desc: "Indeks saham di Jepang yang merefleksikan 225 perusahaan berkinerja unggul di Tokyo Stock Exchange, didominasi oleh korporasi otomotif, semikonduktor, robotika, dan teknologi industri Jepang.",
     image: "/images/nikkei.png",
     priceLabel: "Nikkei 225 Stock Average",
     price: "39,587.40 pts",
     change: "+0.92%",
     changeAbs: "+362.2",
-    metricLabel: "Level Indeks",
-    spark: [11, 13, 15, 14, 18, 20, 19, 23],
     why: [
       "Indikator kekuatan sektor ekspor & manufaktur Jepang",
       "Korelasi erat nilai tukar Yen (JPY) & USD",

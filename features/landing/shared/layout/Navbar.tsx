@@ -25,7 +25,7 @@ export default function Navbar() {
     navLinks.findIndex((l) => l.href === pathname)
   );
 
-  // Transparan hanya di Beranda (yang punya hero gelap) dan saat posisi paling atas.
+  // Transparan hanya di halaman dengan hero gelap (darkHeroRoutes) dan saat di posisi paling atas.
   const solid = scrolled || open || !darkHeroRoutes.includes(pathname);
 
   return (

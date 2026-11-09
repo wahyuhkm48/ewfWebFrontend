@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import StrokeText from "@/components/ui/StrokeText";
 import { heroTags } from "@/features/landing/beranda/data";
