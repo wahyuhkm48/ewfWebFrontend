@@ -85,12 +85,21 @@ export type PivotMidpoints = {
   s3_s4: number;
 };
 
+export type PivotSignal = {
+  open: number;
+  pivot_point: number;
+  diff: number;
+  bias: "bullish" | "bearish" | "netral";
+};
+
 export type PivotResponse = {
   instrument?: { slug: string; label: string; short: string };
+  target_date?: string;
   basis?: { date: string; open: number; high: number; low: number; close: number };
   input?: { high: number; low: number; close: number };
   today_open?: number | null;
   live?: LiveQuote | null;
+  signal?: PivotSignal | null;
   levels: PivotLevels;
   midpoints: PivotMidpoints;
 };

@@ -182,7 +182,7 @@ export default function PivotPanel({ instruments, preset }: Props) {
               </div>
               <div>
                 <label htmlFor="pivot-tanggal" className={label}>
-                  Tanggal Dasar (opsional)
+                  Tanggal Analisa (opsional)
                 </label>
                 <input
                   id="pivot-tanggal"
@@ -192,7 +192,7 @@ export default function PivotPanel({ instruments, preset }: Props) {
                   onChange={(e) => setDate(e.target.value)}
                 />
                 <p className="type-micro mt-1.5 text-muted">
-                  Kosongkan untuk memakai hari bursa terakhir sebelum hari ini.
+                  Kosongkan untuk hari ini. HLC memakai hari bursa sebelumnya, open memakai open tanggal ini.
                 </p>
               </div>
             </>
@@ -255,7 +255,8 @@ export default function PivotPanel({ instruments, preset }: Props) {
                 )}
                 {data.today_open != null && (
                   <span className="rounded-full bg-sapphire/10 px-3 py-1 font-medium text-sapphire">
-                    Open hari ini (real-time): {priceText(prefix, formatNumber(data.today_open))}
+                    Open {data.target_date ? formatDate(data.target_date) : "hari ini"}:{" "}
+                    {priceText(prefix, formatNumber(data.today_open))}
                   </span>
                 )}
                 {data.live && (
@@ -265,6 +266,32 @@ export default function PivotPanel({ instruments, preset }: Props) {
                   </span>
                 )}
               </div>
+
+              {data.signal && (
+                <div
+                  className={`mt-4 rounded-2xl px-4 py-3 text-[13px] font-semibold ${
+                    data.signal.bias === "bullish"
+                      ? "bg-bull/10 text-bull"
+                      : data.signal.bias === "bearish"
+                        ? "bg-bear/10 text-bear"
+                        : "bg-softgrey text-muted"
+                  }`}
+                >
+                  Open {priceText(prefix, formatNumber(data.signal.open))}{" "}
+                  {data.signal.bias === "bullish"
+                    ? "di atas"
+                    : data.signal.bias === "bearish"
+                      ? "di bawah"
+                      : "sama dengan"}{" "}
+                  Pivot Point {formatNumber(data.signal.pivot_point)} (
+                  {formatNumber(data.signal.diff)}) →{" "}
+                  {data.signal.bias === "bullish"
+                    ? "Bias Bullish"
+                    : data.signal.bias === "bearish"
+                      ? "Bias Bearish"
+                      : "Netral"}
+                </div>
+              )}
 
               <div className="mt-4 overflow-hidden rounded-2xl border border-softgrey">
                 <table className="w-full text-[13px]">
