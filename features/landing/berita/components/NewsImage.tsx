@@ -1,11 +1,17 @@
+
 import Image from "next/image";
 
 type Props = {
   src?: string | null;
   sizes?: string;
+  priority?: boolean;
 };
 
-export default function NewsImage({ src, sizes }: Props) {
+export default function NewsImage({
+  src,
+  sizes,
+  priority = false,
+}: Props) {
   return (
     <div className="relative h-full w-full">
       {src ? (
@@ -14,6 +20,7 @@ export default function NewsImage({ src, sizes }: Props) {
           alt="Berita"
           fill
           sizes={sizes}
+          priority={priority}
           className="object-cover transition duration-500 group-hover:scale-105"
         />
       ) : (
