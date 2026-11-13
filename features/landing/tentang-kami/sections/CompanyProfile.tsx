@@ -42,7 +42,7 @@ export default function CompanyProfile() {
 
         <div className="relative aspect-[395/420] overflow-hidden rounded-2xl bg-softgrey">
           <Image
-            src="/images/gedung.png"
+            src="/images/gedung.webp"
             alt="Gedung kantor PT Equityworld Futures"
             fill
             sizes="(min-width: 1024px) 45vw, 100vw"

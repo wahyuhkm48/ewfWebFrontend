@@ -9,7 +9,7 @@ export default function Profile() {
         <div className="relative">
           <div className="relative aspect-[395/420] overflow-hidden rounded-3xl bg-softgrey drop-shadow-[0_24px_32px_rgba(11,27,43,0.30)]">
             <Image
-              src="/images/gedung.png"
+              src="/images/gedung.webp"
               alt="Gedung kantor PT Equityworld Futures"
               fill
               sizes="(min-width: 1024px) 45vw, 100vw"

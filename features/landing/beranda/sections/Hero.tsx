@@ -12,7 +12,7 @@ export default function Hero() {
     <section className="px-3 pt-3 sm:px-4 sm:pt-4">
       <div className="relative overflow-hidden rounded-[1.75rem] bg-navy text-white sm:rounded-[2.5rem]">
         <Image
-          src="/images/hero.png"
+          src="/images/hero.webp"
           alt=""
           fill
           priority
