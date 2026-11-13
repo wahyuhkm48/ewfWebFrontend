@@ -1,10 +1,16 @@
 import Link from "next/link";
-import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
-import { formatDate } from "@/lib/format";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ArrowRight,
+} from "lucide-react";
+
 import { pageRange } from "@/lib/pagination";
-import CategoryTag from "../components/CategoryTag";
-import NewsImage from "../components/NewsImage";
 import type { NewsItem, NewsResponse } from "../types";
+
+import NewsImage from "../components/NewsImage";
+import CategoryTag from "../components/CategoryTag";
+import { formatDate } from "@/lib/format";
 
 type Props = {
   items: NewsItem[];

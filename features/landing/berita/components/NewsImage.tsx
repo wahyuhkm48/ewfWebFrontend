@@ -1,25 +1,26 @@
 import Image from "next/image";
 
 type Props = {
-  src: string | null;
-  sizes: string;
-  priority?: boolean;
+  src?: string | null;
+  sizes?: string;
 };
 
-/** Gambar berita; bila tidak ada, tampil latar navy polos. */
-export default function NewsImage({ src, sizes, priority }: Props) {
-  if (!src) {
-    return <div className="absolute inset-0 bg-navy" aria-hidden="true" />;
-  }
-
+export default function NewsImage({ src, sizes }: Props) {
   return (
-    <Image
-      src={src}
-      alt=""
-      fill
-      sizes={sizes}
-      priority={priority}
-      className="object-cover"
-    />
+    <div className="relative h-full w-full">
+      {src ? (
+        <Image
+          src={src}
+          alt="Berita"
+          fill
+          sizes={sizes}
+          className="object-cover transition duration-500 group-hover:scale-105"
+        />
+      ) : (
+        <div className="flex h-full w-full items-center justify-center bg-navy text-white/50">
+          Tidak ada gambar
+        </div>
+      )}
+    </div>
   );
 }

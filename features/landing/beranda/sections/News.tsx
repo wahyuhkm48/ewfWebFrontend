@@ -1,9 +1,18 @@
-import Image from "next/image";
 import Link from "next/link";
 import SectionHeading from "@/components/ui/SectionHeading";
-import { news } from "@/features/landing/shared/data/news";
+import { getNews } from "@/features/landing/berita/api";
+import NewsCard from "@/features/landing/berita/components/NewsCard";
+import type { NewsItem } from "@/features/landing/berita/types";
 
-export default function News() {
+export default async function News() {
+  let items: NewsItem[] = [];
+
+  try {
+    items = (await getNews(1)).data.slice(0, 4);
+  } catch {
+    items = [];
+  }
+
   return (
     <section className="mx-auto max-w-7xl px-4 pb-50 sm:px-6">
       <div className="flex items-end justify-between gap-4">
@@ -16,33 +25,17 @@ export default function News() {
         </Link>
       </div>
 
-      <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {news.map((n) => (
-          <article key={n.title} className="overflow-hidden rounded-2xl bg-white shadow-sm">
-            <div className="relative h-40 bg-softgrey">
-              <Image
-                src={n.image}
-                alt={n.title}
-                fill
-                sizes="(min-width: 1024px) 25vw, 50vw"
-                className="object-cover"
-              />
-            </div>
-            <div className="p-4">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-sapphire">
-                {n.category}
-              </p>
-              <h3 className="mt-2 line-clamp-3 font-display text-base font-semibold leading-snug text-ink">
-                {n.title}
-              </h3>
-              <div className="type-micro mt-4 flex justify-between text-muted">
-                <span>{n.time}</span>
-                <span>{n.author}</span>
-              </div>
-            </div>
-          </article>
-        ))}
-      </div>
+      {items.length > 0 ? (
+        <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {items.map((item) => (
+            <NewsCard key={item.id ?? item.slug ?? item.title} item={item} />
+          ))}
+        </div>
+      ) : (
+        <div className="mt-8 rounded-3xl border border-softgrey bg-white p-10 text-center">
+          <p className="type-body text-muted">Berita belum bisa dimuat saat ini.</p>
+        </div>
+      )}
     </section>
   );
 }
