@@ -4,13 +4,14 @@ import StrokeText from "@/components/ui/StrokeText";
 import { heroTags } from "@/features/landing/beranda/data";
 import GlassChip from "@/components/ui/GlassChip";
 import SpecularLink from "@/components/ui/SpecularLink";
+import { HERO_FRAME, HERO_INNER } from "@/features/landing/shared/hero";
 
 const HERO_TEXT_SIZE = "clamp(2.25rem, 4.1vw, 5rem)";
 
 export default function Hero() {
   return (
     <section className="px-3 pt-3 sm:px-4 sm:pt-4">
-      <div className="relative overflow-hidden rounded-[1.75rem] bg-navy text-white sm:rounded-[2.5rem]">
+      <div className={HERO_FRAME}>
         <Image
           src="/images/hero.webp"
           alt=""
@@ -22,7 +23,7 @@ export default function Hero() {
         <div className="absolute inset-0 bg-linear-to-r from-navy/95 via-navy/55 to-transparent" />
         <div className="absolute inset-x-0 top-0 h-32 bg-linear-to-b from-navy/70 to-transparent" />
 
-        <div className="relative mx-auto grid max-w-7xl items-center gap-10 px-4 pb-28 pt-32 sm:px-6 lg:grid-cols-2 lg:pb-36 lg:pt-40">
+        <div className={`${HERO_INNER} grid items-center gap-10 lg:grid-cols-2`}>
           <div>
             <h1 aria-label="Trading with Trust">
               <StrokeText

@@ -3,13 +3,14 @@ import { ArrowRight, BadgeCheck, Lock, Network } from "lucide-react";
 import StrokeText from "@/components/ui/StrokeText";
 import GlassChip from "@/components/ui/GlassChip";
 import SpecularLink from "@/components/ui/SpecularLink";
+import { HERO_FRAME, HERO_INNER } from "@/features/landing/shared/hero";
 
 const HERO_TEXT_SIZE = "clamp(1.5rem, 4.2vw, 3.25rem)";
 
 export default function Hero() {
   return (
     <section className="px-3 pt-3 sm:px-4 sm:pt-4">
-      <div className="relative overflow-hidden rounded-[1.75rem] bg-navy text-white sm:rounded-[2.5rem]">
+      <div className={HERO_FRAME}>
         <Image
           src="/images/tentang-hero.webp"
           alt=""
@@ -28,7 +29,7 @@ export default function Hero() {
           EQUITYWORLD
         </p>
 
-        <div className="relative mx-auto max-w-7xl px-4 pb-44 pt-32 sm:px-6 lg:pb-56 lg:pt-40">
+        <div className={HERO_INNER}>
           <div className="flex flex-wrap gap-2">
             <GlassChip>
               <span className="h-1.5 w-1.5 rounded-full bg-bull" />

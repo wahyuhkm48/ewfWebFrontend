@@ -3,13 +3,14 @@ import { ArrowRight, BadgeCheck, ShieldCheck } from "lucide-react";
 import StrokeText from "@/components/ui/StrokeText";
 import GlassChip from "@/components/ui/GlassChip";
 import SpecularLink from "@/components/ui/SpecularLink";
+import { HERO_FRAME, HERO_INNER } from "@/features/landing/shared/hero";
 
 const HERO_TEXT_SIZE = "clamp(2.25rem, 5vw, 5.5rem)";
 
 export default function Hero() {
   return (
     <section className="px-3 pt-3 sm:px-4 sm:pt-4">
-      <div className="relative overflow-hidden rounded-[1.75rem] bg-navy text-white sm:rounded-[2.5rem]">
+      <div className={HERO_FRAME}>
         <Image
           src="/images/berita-hero.webp"
           alt=""
@@ -29,7 +30,7 @@ export default function Hero() {
           BERITA
         </span>
 
-        <div className="relative mx-auto max-w-7xl px-4 pb-24 pt-32 sm:px-6 lg:pb-32 lg:pt-40">
+        <div className={HERO_INNER}>
           <GlassChip className="text-[10px]! uppercase tracking-[0.12em]">
             <span className="h-1.5 w-1.5 rounded-full bg-brand" />
             Berita &amp; Informasi Pasar
