@@ -14,19 +14,20 @@ export const heroTags = [
   "BAPPEBTI Terdaftar",
 ];
 
-export const marketStatus = [
-  { city: "JAKARTA (WIB)", status: "Buka Pasar", open: true },
-  { city: "TOKYO (JST)", status: "Buka Pasar", open: true },
-  { city: "HONG KONG (HKT)", status: "Buka Pasar", open: true },
-  { city: "NEW YORK (EST)", status: "Tutup Pasar", open: false },
+export const marketClocks: { city: string; abbr: string | null; timeZone: string }[] = [
+  { city: "JAKARTA", abbr: "WIB", timeZone: "Asia/Jakarta" },
+  { city: "TOKYO", abbr: "JST", timeZone: "Asia/Tokyo" },
+  { city: "HONG KONG", abbr: "HKT", timeZone: "Asia/Hong_Kong" },
+  // abbr null = singkatan (EST/EDT) dihitung otomatis mengikuti musim
+  { city: "NEW YORK", abbr: null, timeZone: "America/New_York" },
 ];
 
-export const marketPrices = [
-  { label: "XAU/USD", price: "$2,384.20", change: "+1.42%" },
-  { label: "Brent Oil", price: "$84.50", change: "+0.85%" },
-  { label: "Hang Seng", price: "16,720.50", change: "+1.85%" },
-  { label: "Nikkei 225", price: "38,450.00", change: "+0.92%" },
-];
+export const marketTickers = [
+  { slug: "gold", label: "XAU/USD" },
+  { slug: "oil", label: "Brent Oil" },
+  { slug: "hangseng", label: "Hang Seng" },
+  { slug: "nikkei", label: "Nikkei 225" },
+] as const;
 
 export const trustBadges = [
   { title: "Terdaftar BAPPEBTI", desc: "Izin: 549/BAPPEBTI/SI/IX/2004", icon: BadgeCheck },
