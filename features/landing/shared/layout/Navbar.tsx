@@ -7,7 +7,7 @@ import { Menu, X } from "lucide-react";
 import GooeyNav from "@/components/ui/GooeyNav";
 import { navLinks } from "@/features/landing/shared/data/nav";
 
-const darkHeroRoutes = ["/", "/tentang-kami", "/produk"];
+const darkHeroRoutes = ["/", "/tentang-kami", "/produk", "/analisa", "/berita"];
 
 export default function Navbar() {
   const pathname = usePathname();
