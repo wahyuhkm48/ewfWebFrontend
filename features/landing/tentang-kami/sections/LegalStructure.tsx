@@ -1,18 +1,35 @@
+import Image from "next/image";
 import {
   ArrowDown,
   BadgeCheck,
-  Banknote,
-  Gavel,
-  Landmark,
-  RefreshCw,
-  ShieldCheck,
   Users,
   type LucideIcon,
 } from "lucide-react";
 import Pill from "@/components/ui/Pill";
 
+const logos = {
+  kemendag: { src: "/images/kemendag.webp", alt: "Logo Kementerian Perdagangan" },
+  ojk: { src: "/images/ojk.webp", alt: "Logo Otoritas Jasa Keuangan" },
+  bappebti: { src: "/images/bappebti.webp", alt: "Logo BAPPEBTI" },
+  bi: { src: "/images/bi.webp", alt: "Logo Bank Indonesia" },
+  bbj: { src: "/images/bbj.webp", alt: "Logo Bursa Berjangka Jakarta" },
+  kbi: { src: "/images/kbi.webp", alt: "Logo Kliring Berjangka Indonesia" },
+  ewf: { src: "/images/ewf.webp", alt: "Logo PT Equityworld Futures" },
+};
+
+type Logo = { src: string; alt: string };
+
+/** Semua logo memakai kotak berukuran sama agar rapi di semua kartu. */
+function LogoBox({ src, alt }: Logo) {
+  return (
+    <div className="relative h-16 w-40">
+      <Image src={src} alt={alt} fill sizes="160px" className="object-contain" />
+    </div>
+  );
+}
+
 type NodeProps = {
-  icon: LucideIcon;
+  logo: Logo;
   title: string;
   desc: string;
   tag: string;
@@ -24,7 +41,7 @@ type NodeProps = {
 };
 
 function LegalNode({
-  icon: Icon,
+  logo,
   eyebrow,
   title,
   subtitle,
@@ -40,9 +57,7 @@ function LegalNode({
         featured ? "shadow-xl ring-2 ring-ink" : ""
       }`}
     >
-      <span className="grid h-9 w-9 place-items-center rounded-xl bg-softgrey text-navy">
-        <Icon size={18} />
-      </span>
+      <LogoBox {...logo} />
       {eyebrow && (
         <span
           className={
@@ -116,7 +131,7 @@ export default function LegalStructure() {
           {/* Level 1: Kemendag */}
           <div className="mx-auto max-w-md">
             <LegalNode
-              icon={Landmark}
+              logo={logos.kemendag}
               title="Kementerian Perdagangan (Kemendag)"
               desc="Menetapkan kebijakan nasional, termasuk perdagangan berjangka komoditi."
               tag="Kebijakan Nasional"
@@ -135,7 +150,7 @@ export default function LegalStructure() {
 
             <div className="grid gap-4 md:grid-cols-3">
               <LegalNode
-                icon={ShieldCheck}
+                logo={logos.ojk}
                 title="Otoritas Jasa Keuangan (OJK)"
                 desc="Mengawasi sektor jasa keuangan agar tertib, transparan, dan melindungi konsumen."
                 tag="Koordinasi Sektoral"
@@ -143,7 +158,7 @@ export default function LegalStructure() {
               />
               <LegalNode
                 featured
-                icon={Gavel}
+                logo={logos.bappebti}
                 eyebrow="Regulator Utama"
                 title="BAPPEBTI"
                 subtitle="(Badan Pengawas Perdagangan Berjangka Komoditi)"
@@ -152,7 +167,7 @@ export default function LegalStructure() {
                 accent="border-t-navy"
               />
               <LegalNode
-                icon={Banknote}
+                logo={logos.bi}
                 title="Bank Indonesia (BI)"
                 desc="Menjaga stabilitas moneter dan sistem pembayaran serta lalu lintas dana nasabah di perbankan."
                 tag="Koordinasi Moneter"
@@ -167,7 +182,7 @@ export default function LegalStructure() {
           {/* Level 3: BBJ - KBI */}
           <div className="grid gap-4 md:grid-cols-2">
             <LegalNode
-              icon={RefreshCw}
+              logo={logos.bbj}
               eyebrow="Penyelenggara Bursa"
               title="PT Bursa Berjangka Jakarta (BBJ)"
               desc="Penyelenggara bursa resmi tempat perdagangan kontrak berjangka dan derivatif dilaksanakan secara teratur, wajar, dan transparan."
@@ -175,7 +190,7 @@ export default function LegalStructure() {
               accent="border-t-sapphire"
             />
             <LegalNode
-              icon={ShieldCheck}
+              logo={logos.kbi}
               eyebrow="Lembaga Penjaminan & Kliring"
               title="PT Kliring Berjangka Indonesia (KBI)"
               desc="Lembaga kliring yang menjamin dan menyelesaikan transaksi berjangka (settlement) serta manajemen risiko transaksi."
@@ -203,11 +218,9 @@ export default function LegalStructure() {
             <Pill tone="dark" className="!tracking-wider">
               Pialang Berjangka Resmi (EWF)
             </Pill>
-            <div className="mt-3 flex items-center justify-center gap-3">
-              <span className="grid h-11 w-11 place-items-center rounded-full bg-brand text-[11px] font-extrabold text-white">
-                EWF
-              </span>
-              <h3 className="font-display text-lg font-extrabold uppercase text-ink">
+            <div className="mt-3 flex flex-col items-center">
+              <LogoBox {...logos.ewf} />
+              <h3 className="mt-1 font-display text-lg font-extrabold uppercase text-ink">
                 PT Equityworld Futures
               </h3>
             </div>
