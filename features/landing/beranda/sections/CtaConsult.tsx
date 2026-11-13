@@ -7,10 +7,7 @@ export default function CtaConsult() {
     <section className="mx-auto max-w-7xl px-4 pb-20 sm:px-6">
       <div className="grid items-center gap-8 rounded-3xl bg-linear-to-r from-navy via-navy to-brand p-8 text-white sm:p-12 lg:grid-cols-[1.4fr_1fr]">
         <div>
-          <span className="type-label rounded-full border border-white/30 px-3 py-1 text-[11px]">
-            Konsultasi Terpercaya
-          </span>
-          <h2 className="type-h2 mt-4">
+          <h2 className="type-h2">
             Punya Pertanyaan Seputar Perdagangan Berjangka?
             <span className="block">Tim Kami Siap Membantu.</span>
           </h2>

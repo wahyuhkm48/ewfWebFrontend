@@ -54,32 +54,37 @@ export default function Hero() {
             berorientasi pada keamanan investasi nasabah di seluruh Indonesia.
           </p>
 
-          <ul className="mt-5 flex flex-wrap gap-2">
-            <li>
-              <GlassChip>
-                <span className="h-1.5 w-1.5 rounded-full bg-bull" />
-                Pialang Berjangka Terdaftar BAPPEBTI
-              </GlassChip>
-            </li>
-            <li>
-              <GlassChip>
-                <BadgeCheck size={13} className="text-sapphire" />
-                Izin No. 549/BAPPEBTI/SI/IX/2004
-              </GlassChip>
-            </li>
-            <li>
-              <GlassChip>20+ Tahun Pengalaman Pialang</GlassChip>
-            </li>
-            <li>
-              <GlassChip>7 Kantor Operasional di 5 Kota</GlassChip>
-            </li>
-            <li>
-              <GlassChip tone="green">
-                <Lock size={12} />
-                100% Rekening Terpisah (Segregated)
-              </GlassChip>
-            </li>
-          </ul>
+          <div className="mt-5 flex flex-col gap-2">
+            {/* Baris Atas: 2 Pill */}
+            <ul className="flex flex-wrap gap-2">
+              <li>
+                <GlassChip>
+                  <span className="h-1.5 w-1.5 rounded-full bg-bull" /> Pialang Berjangka Terdaftar BAPPEBTI
+                </GlassChip>
+              </li>
+              <li>
+                <GlassChip>
+                  <BadgeCheck size={13} className="text-sapphire" /> Izin No. 549/BAPPEBTI/SI/IX/2004
+                </GlassChip>
+              </li>
+            </ul>
+
+            {/* Baris Bawah: 3 Pill */}
+            <ul className="flex flex-wrap gap-2">
+              <li>
+                <GlassChip>20+ Tahun Pengalaman Pialang</GlassChip>
+              </li>
+              <li>
+                <GlassChip>7 Kantor Operasional di 5 Kota</GlassChip>
+              </li>
+              <li>
+                <GlassChip tone="green">
+                  <Lock size={12} /> 100% Rekening Terpisah (Segregated)
+                </GlassChip>
+              </li>
+            </ul>
+          </div>
+
 
           <div className="mt-7 flex flex-wrap gap-3">
             <SpecularLink href="#profil" variant="primary">
