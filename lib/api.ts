@@ -1,9 +1,9 @@
 
 function requireApiUrl(): string {
-  const url = process.env.API_URL;
+  const url = process.env.NEXT_PUBLIC_API_URL;
 
   if (!url) {
-    throw new Error("API_URL belum di-set.");
+    throw new Error("NEXT_PUBLIC_API_URL belum di-set.");
   }
 
   return url;
