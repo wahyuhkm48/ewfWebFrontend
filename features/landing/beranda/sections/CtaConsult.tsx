@@ -1,5 +1,6 @@
-import { MessageCircle, CalendarDays } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import SpecularLink from "@/components/ui/SpecularLink";
+import { WHATSAPP_URL } from "@/features/landing/shared/data/contact";
 
 export default function CtaConsult() {
   return (
@@ -21,11 +22,8 @@ export default function CtaConsult() {
         </div>
 
         <div className="flex flex-col gap-3 sm:flex-row lg:justify-end">
-          <SpecularLink href="#" variant="light">
+          <SpecularLink href={WHATSAPP_URL} variant="light">
             <MessageCircle size={16} className="text-bull" /> Chat WhatsApp Resmi
-          </SpecularLink>
-          <SpecularLink href="/kontak" variant="ghost">
-            <CalendarDays size={16} /> Kirim Pesan / Janji Temu
           </SpecularLink>
         </div>
       </div>

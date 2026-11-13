@@ -1,5 +1,6 @@
-import { Headset, MessageCircle } from "lucide-react";
+import { MessageCircle } from "lucide-react";
 import SpecularLink from "@/components/ui/SpecularLink";
+import { WHATSAPP_URL } from "@/features/landing/shared/data/contact";
 
 export default function CtaAnalisa() {
   return (
@@ -14,11 +15,8 @@ export default function CtaAnalisa() {
         </div>
 
         <div className="flex flex-col gap-3 sm:flex-row lg:justify-end">
-          <SpecularLink href="#" variant="light">
+          <SpecularLink href={WHATSAPP_URL} variant="light">
             <MessageCircle size={16} className="text-bull" /> Chat WhatsApp
-          </SpecularLink>
-          <SpecularLink href="/kontak" variant="ghost">
-            <Headset size={16} /> Hubungi Broker Resmi
           </SpecularLink>
         </div>
       </div>
