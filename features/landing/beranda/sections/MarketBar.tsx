@@ -27,10 +27,20 @@ function zoneAbbr(date: Date, timeZone: string) {
   );
 }
 
+/** Jam dari waktu data feed (date_time), diambil dari kuotasi yang paling baru. */
+function feedClock(live: LiveResponse | null) {
+  const times = Object.values(live?.data ?? {})
+    .map((q) => q.time)
+    .filter((t): t is string => !!t)
+    .sort();
+  const latest = times[times.length - 1];
+
+  return latest?.match(/\d{2}:\d{2}:\d{2}/)?.[0] ?? null;
+}
+
 export default function MarketBar() {
   const [now, setNow] = useState<Date | null>(null);
   const [live, setLive] = useState<LiveResponse | null>(null);
-  const [fetchedAt, setFetchedAt] = useState<Date | null>(null);
   const [failed, setFailed] = useState(false);
 
   // Jam berjalan tiap detik. Baru diisi setelah mount agar tidak beda dengan HTML server.
@@ -58,7 +68,6 @@ export default function MarketBar() {
       getLive(current.signal)
         .then((res) => {
           setLive(res);
-          setFetchedAt(new Date());
           setFailed(false);
         })
         .catch(() => {
@@ -74,10 +83,12 @@ export default function MarketBar() {
     };
   }, []);
 
+  const clock = feedClock(live);
+
   const statusText = failed
     ? "Harga real-time sedang tidak tersedia"
-    : fetchedAt
-      ? `Diperbarui ${formatClock(fetchedAt, "Asia/Jakarta")} WIB`
+    : clock
+      ? `Diperbarui ${clock}`
       : "Memuat harga…";
 
   return (
