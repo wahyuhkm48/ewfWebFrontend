@@ -30,18 +30,7 @@ export default function Hero() {
         </p>
 
         <div className={HERO_INNER}>
-          <div className="flex flex-wrap gap-2">
-            <GlassChip>
-              <span className="h-1.5 w-1.5 rounded-full bg-bull" />
-              Pialang Berjangka Terdaftar BAPPEBTI
-            </GlassChip>
-            <GlassChip>
-              <BadgeCheck size={13} className="text-sapphire" />
-              Izin No. 549/BAPPEBTI/SI/IX/2004
-            </GlassChip>
-          </div>
-
-          <h1 className="mt-6" aria-label="Mengenal Lebih Dekat Trust by Equityworld">
+          <h1 aria-label="Mengenal Lebih Dekat Trust by Equityworld">
             <StrokeText
               text="MENGENAL LEBIH DEKAT"
               align="left"
@@ -66,6 +55,18 @@ export default function Hero() {
           </p>
 
           <ul className="mt-5 flex flex-wrap gap-2">
+            <li>
+              <GlassChip>
+                <span className="h-1.5 w-1.5 rounded-full bg-bull" />
+                Pialang Berjangka Terdaftar BAPPEBTI
+              </GlassChip>
+            </li>
+            <li>
+              <GlassChip>
+                <BadgeCheck size={13} className="text-sapphire" />
+                Izin No. 549/BAPPEBTI/SI/IX/2004
+              </GlassChip>
+            </li>
             <li>
               <GlassChip>20+ Tahun Pengalaman Pialang</GlassChip>
             </li>

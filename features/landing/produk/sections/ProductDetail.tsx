@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronRight } from "lucide-react";
-import Pill from "@/components/ui/Pill";
 import type { ProductDetail as Product } from "@/features/landing/produk/data";
 
 type Props = { product: Product; reverse?: boolean };
@@ -47,8 +46,7 @@ export default function ProductDetail({ product: p, reverse }: Props) {
 
         {/* Konten */}
         <div>
-          <Pill tone={reverse ? "white" : "light"}>{p.category}</Pill>
-          <h2 className="type-h2 mt-3 text-ink">{p.title}</h2>
+          <h2 className="type-h2 text-ink">{p.title}</h2>
           <p className="mt-2 text-[14px] leading-6 text-muted">{p.desc}</p>
 
           <p className="type-label mt-4 text-ink">Mengapa Diperdagangkan:</p>

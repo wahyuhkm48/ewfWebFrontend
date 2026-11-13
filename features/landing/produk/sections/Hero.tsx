@@ -32,14 +32,9 @@ export default function Hero() {
         </span>
 
         <div className={HERO_INNER}>
-          <GlassChip className="text-[10px]! uppercase tracking-[0.12em]">
-            <span className="h-1.5 w-1.5 rounded-full bg-brand" />
-            Produk Resmi Multilateral
-          </GlassChip>
-
           <h1
             aria-label="Produk Pasar"
-            className="mt-5 flex flex-nowrap items-center gap-x-[0.1em]"
+            className="flex flex-nowrap items-center gap-x-[0.1em]"
             style={{ fontSize: HERO_TEXT_SIZE }}
           >
             <StrokeText
