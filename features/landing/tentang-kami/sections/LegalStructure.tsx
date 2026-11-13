@@ -265,6 +265,7 @@ export default function LegalStructure() {
             </p>
           </div>
 
+
           {/* Legenda */}
           <div className="mt-8 grid gap-4 rounded-2xl border border-softgrey bg-white p-4 text-[11px] text-muted md:grid-cols-[1.4fr_1fr] md:items-center">
             <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
