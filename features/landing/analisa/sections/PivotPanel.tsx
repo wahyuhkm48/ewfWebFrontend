@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { Calculator } from "lucide-react";
 import SlidingTabs from "@/components/ui/SlidingTabs";
-import { formatDate, formatNumber, formatPercent, formatSigned } from "../../../../lib/format";
+import { formatDate, formatNumber, formatSigned } from "../../../../lib/format";
 import { calculatePivot, getPivot } from "../api";
 import { priceText } from "../constants";
 import type { Instrument, PivotResponse } from "../types";
@@ -148,30 +148,28 @@ export default function PivotPanel({ instruments, preset }: Props) {
     draft !== null &&
     isSameInput(request, draft);
 
-  const submit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setFormError("");
+const submit = (e: React.FormEvent) => {
+  e.preventDefault();
+  setFormError("");
 
-    if (!draft) {
-      setFormError("Isi nilai High, Low, dan Close terlebih dahulu.");
+  if (mode === "historis") {
+    const missing = [!slug && "produk", !date && "tanggal"].filter(Boolean);
+    if (missing.length > 0) {
+      setFormError(`Pilih ${missing.join(" dan ")} terlebih dahulu.`);
       return;
     }
-    if (loading || upToDate) return;
+  }
 
-    setRequest((r) => ({ ...draft, id: (r?.id ?? 0) + 1 }));
-  };
+  if (!draft) {
+    setFormError("Isi nilai High, Low, dan Close terlebih dahulu.");
+    return;
+  }
+  if (loading || upToDate) return;
+
+  setRequest((r) => ({ ...draft, id: (r?.id ?? 0) + 1 }));
+};
 
   const data = result?.data;
-  const current = data?.live?.price;
-  const levelRows = ROWS.filter(([, , kind]) => kind !== "m");
-  const nearest =
-    current == null || !data
-      ? null
-      : levelRows.reduce((best, [key]) => {
-          const value = data.levels[key as keyof typeof data.levels];
-          const bestValue = data.levels[best as keyof typeof data.levels];
-          return Math.abs(value - current) < Math.abs(bestValue - current) ? key : best;
-        }, levelRows[0][0] as string);
 
   const prefix = request?.mode === "historis" ? request.slug : "";
 
@@ -233,7 +231,10 @@ export default function PivotPanel({ instruments, preset }: Props) {
                   id="pivot-instrumen"
                   className={field}
                   value={slug}
-                  onChange={(e) => setSlug(e.target.value)}
+                  onChange={(e) => {
+                    setSlug(e.target.value);
+                    setFormError("");
+                  }}
                 >
                   {instruments.length === 0 && <option value={slug}>Memuat…</option>}
                   {instruments.map((i) => (
@@ -252,7 +253,10 @@ export default function PivotPanel({ instruments, preset }: Props) {
                   type="date"
                   className={field}
                   value={date}
-                  onChange={(e) => setDate(e.target.value)}
+                  onChange={(e) => {
+                    setDate(e.target.value);
+                    setFormError("");
+                  }}
                 />
               </div>
             </>
@@ -311,28 +315,34 @@ export default function PivotPanel({ instruments, preset }: Props) {
             <div className="h-80 animate-pulse rounded-2xl bg-surface" />
           ) : (
             <div className={loading ? "opacity-60" : ""}>
-              {/* Tanggal */}
-              <div className="flex flex-wrap items-end justify-between gap-2">
-                <div>
-                  <p className="type-micro font-semibold uppercase tracking-[0.1em] text-muted">
-                    {data.basis ? "Tanggal Data" : "Sumber Data"}
-                  </p>
-                  <p className="font-display text-lg font-extrabold text-ink">
-                    {data.basis ? formatDate(data.basis.date) : "Input Manual"}
-                  </p>
-                  {data.target_date && (
-                    <p className="type-micro text-muted">
-                      Level pivot untuk {formatDate(data.target_date)}
+                {/* Tanggal */}
+                {data.basis ? (
+                  <div className="flex flex-wrap gap-x-10 gap-y-3">
+                    <div>
+                      <p className="type-micro font-semibold uppercase tracking-[0.1em] text-muted">
+                        Tanggal Pivot Point
+                      </p>
+                      <p className="font-display text-lg font-extrabold text-ink">
+                        {formatDate(data.target_date ?? data.basis.date)}
+                      </p>
+                    </div>
+                    <div>
+                      <p className="type-micro font-semibold uppercase tracking-[0.1em] text-muted">
+                        Tanggal Data
+                      </p>
+                      <p className="font-display text-lg font-extrabold text-ink">
+                        {formatDate(data.basis.date)}
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <div>
+                    <p className="type-micro font-semibold uppercase tracking-[0.1em] text-muted">
+                      Sumber Data
                     </p>
-                  )}
-                </div>
-                {data.live && (
-                  <p className="rounded-full bg-bull/10 px-3 py-1 text-xs font-medium text-bull">
-                    Harga live: {priceText(prefix, formatNumber(data.live.price))} (
-                    {formatPercent(data.live.change_percent)})
-                  </p>
+                    <p className="font-display text-lg font-extrabold text-ink">Input Manual</p>
+                  </div>
                 )}
-              </div>
 
               {/* Kartu OHLC */}
               <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
@@ -379,19 +389,12 @@ export default function PivotPanel({ instruments, preset }: Props) {
                       return (
                         <tr
                           key={key}
-                          className={`border-t border-softgrey ${
-                            nearest === key ? "bg-sapphire/5" : ""
-                          } ${kind === "p" ? "bg-brand/5" : ""}`}
+                          className={`border-t border-softgrey ${kind === "p" ? "bg-brand/5" : ""}`}
                         >
                           <td
                             className={`px-4 ${kind === "m" ? "py-1.5 pl-8 text-xs italic" : "py-3 font-semibold"} ${tone}`}
                           >
                             {text}
-                            {nearest === key && (
-                              <span className="ml-2 rounded-full bg-sapphire px-2 py-0.5 text-[10px] font-semibold not-italic text-white">
-                                Terdekat dengan harga live
-                              </span>
-                            )}
                           </td>
                           <td
                             className={`px-4 text-right ${kind === "m" ? "py-1.5 text-xs text-muted" : "py-3 font-semibold text-ink"}`}

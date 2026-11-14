@@ -13,7 +13,7 @@ type Tab = "history" | "pivot";
 
 const TABS: { id: Tab; query: string; label: string; icon: typeof Table }[] = [
   { id: "history", query: "historis", label: "Data Historis", icon: Table },
-  { id: "pivot", query: "kalkulator", label: "Kalkulator Pivot Point", icon: Calculator },
+  { id: "pivot", query: "kalkulator", label: "Pivot Point", icon: Calculator },
 ];
 
 export default function AnalisaTabs() {
