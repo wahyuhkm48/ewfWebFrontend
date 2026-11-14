@@ -5,6 +5,7 @@ import { Maximize2 } from "lucide-react";
 import TradingViewChart from "@/components/ui/TradingViewChart";
 import { INTERVALS } from "../constants";
 import type { Interval } from "../types";
+import SlidingTabs from "@/components/ui/SlidingTabs";
 
 type Props = {
   short: string;
@@ -41,26 +42,16 @@ export default function ChartCard({ short, symbol, interval, active }: Props) {
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="inline-flex rounded-xl bg-softgrey p-1" role="group" aria-label="Tipe grafik">
-            {(
-              [
-                ["3", "Area Chart"],
-                ["1", "Candlestick"],
-              ] as const
-            ).map(([value, label]) => (
-              <button
-                key={value}
-                type="button"
-                aria-pressed={style === value}
-                onClick={() => setStyle(value)}
-                className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
-                  style === value ? "bg-white text-ink shadow-sm" : "text-muted hover:text-ink"
-                }`}
-              >
-                {label}
-              </button>
-            ))}
-          </div>
+          <SlidingTabs
+            variant="soft"
+            ariaLabel="Tipe grafik"
+            value={style}
+            onChange={setStyle}
+            options={[
+              { value: "3", label: "Area Chart" },
+              { value: "1", label: "Candlestick" },
+            ]}
+          />
           <button
             type="button"
             onClick={toggleFullscreen}

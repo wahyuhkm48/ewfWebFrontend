@@ -16,20 +16,38 @@ type Props<T extends string> = {
   value: T;
   onChange: (value: T) => void;
   ariaLabel: string;
-  /** pill = tab utama (bulat besar, role tablist); segment = toggle kecil (role group) */
-  variant?: "pill" | "segment";
+  /**
+   * pill    = tab utama (bulat besar, pill oranye, role tablist)
+   * segment = toggle kecil dengan pill oranye
+   * soft    = toggle kecil berlatar abu-abu dengan pill putih
+   */
+  variant?: "pill" | "segment" | "soft";
 };
 
 const STYLES = {
   pill: {
     root: "rounded-full bg-white p-1.5 shadow-lg",
     item: "gap-2 rounded-full px-5 py-2.5 text-[13px]",
-    indicator: "rounded-full",
+    indicator: "rounded-full bg-brand shadow-sm",
+    active: "text-white",
+    activeFallback: "bg-brand",
+    inactive: "text-ink hover:text-brand",
   },
   segment: {
     root: "rounded-xl bg-white p-1",
     item: "rounded-lg px-3 py-1.5 text-xs",
-    indicator: "rounded-lg",
+    indicator: "rounded-lg bg-brand shadow-sm",
+    active: "text-white",
+    activeFallback: "bg-brand",
+    inactive: "text-ink hover:text-brand",
+  },
+  soft: {
+    root: "rounded-xl bg-softgrey p-1",
+    item: "rounded-lg px-3 py-1.5 text-xs",
+    indicator: "rounded-lg bg-white shadow-sm",
+    active: "text-ink",
+    activeFallback: "bg-white shadow-sm",
+    inactive: "text-muted hover:text-ink",
   },
 } as const;
 
@@ -79,7 +97,8 @@ export default function SlidingTabs<T extends string>({
     placedOnce.current = true;
   }, [index, place]);
 
-  // Ukuran berubah (resize layar, font selesai dimuat): pasang ulang tanpa animasi.
+  // Ukuran berubah (resize layar, font selesai dimuat, panel yang tadinya
+  // tersembunyi jadi terlihat): pasang ulang tanpa animasi.
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
@@ -88,7 +107,7 @@ export default function SlidingTabs<T extends string>({
     return () => observer.disconnect();
   }, [place]);
 
-  // Sebelum pill terpasang, tombol aktif memakai latarnya sendiri agar teks putih tetap terbaca.
+  // Sebelum pill terpasang, tombol aktif memakai latarnya sendiri agar tetap terbaca.
   useEffect(() => {
     const id = requestAnimationFrame(() => setReady(true));
     return () => cancelAnimationFrame(id);
@@ -104,7 +123,7 @@ export default function SlidingTabs<T extends string>({
       <span
         ref={indicatorRef}
         aria-hidden="true"
-        className={`pointer-events-none absolute left-0 top-0 bg-brand shadow-sm transition-[transform,width] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none ${styles.indicator}`}
+        className={`pointer-events-none absolute left-0 top-0 transition-[transform,width] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] motion-reduce:transition-none ${styles.indicator}`}
       />
 
       {options.map((option, i) => {
@@ -123,9 +142,9 @@ export default function SlidingTabs<T extends string>({
             className={`relative z-10 inline-flex items-center justify-center font-semibold transition-colors duration-300 ${styles.item} ${
               active
                 ? ready
-                  ? "text-white"
-                  : "bg-brand text-white"
-                : "text-ink hover:text-brand"
+                  ? styles.active
+                  : `${styles.active} ${styles.activeFallback}`
+                : styles.inactive
             }`}
           >
             {option.label}
