@@ -227,7 +227,7 @@ export default function PivotPanel({ instruments, preset }: Props) {
             <>
               <div>
                 <label htmlFor="pivot-instrumen" className={label}>
-                  Instrumen
+                  Produk
                 </label>
                 <select
                   id="pivot-instrumen"
@@ -245,7 +245,7 @@ export default function PivotPanel({ instruments, preset }: Props) {
               </div>
               <div>
                 <label htmlFor="pivot-tanggal" className={label}>
-                  Tanggal Analisa (opsional)
+                  Tanggal
                 </label>
                 <input
                   id="pivot-tanggal"
@@ -254,9 +254,6 @@ export default function PivotPanel({ instruments, preset }: Props) {
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
                 />
-                <p className="type-micro mt-1.5 text-muted">
-                  Kosongkan untuk hari ini. HLC memakai hari bursa sebelumnya, open memakai open tanggal ini.
-                </p>
               </div>
             </>
           ) : (
@@ -302,7 +299,7 @@ export default function PivotPanel({ instruments, preset }: Props) {
                 <Calculator size={28} className="mx-auto text-muted" />
                 <p className="mt-3 font-semibold text-ink">Belum ada perhitungan</p>
                 <p className="type-body mt-1 text-muted">
-                  Pilih sumber data, lalu klik “Hitung Pivot Point” untuk menampilkan level pivot.
+                  Pilih produk dan tanggal, lalu klik “Hitung Pivot Point” untuk menampilkan level pivot.
                 </p>
               </div>
             </div>
