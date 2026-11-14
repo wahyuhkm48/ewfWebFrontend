@@ -72,12 +72,22 @@ export default function HistoryPanel({ instruments, active, onPivot }: Props) {
   };
 
   const apply = () => {
+    if (!canApply) return;
     setApplied(draft);
     setPage(1);
   };
 
   const selected = instruments.find((i) => i.slug === applied.slug);
   const instrument = data?.instrument;
+  // Bandingkan isi form dengan rentang yang benar-benar sedang tampil (dari respons server).
+  // Kolom kosong dianggap "pakai rentang penuh", jadi tidak dianggap perubahan.
+  const range = data?.filters;
+  const sameRange =
+    !range ||
+    ((draft.from || range.from) === range.from && (draft.to || range.to) === range.to);
+  const hasFilter = applied.from !== "" || applied.to !== "";
+  const canApply = !loading && !sameRange;
+  const canReset = !loading && (hasFilter || !sameRange);
 
   return (
     <div className="rounded-3xl border border-softgrey bg-white p-5 shadow-sm sm:p-8">
@@ -150,6 +160,8 @@ export default function HistoryPanel({ instruments, active, onPivot }: Props) {
                 onChange={setDraft}
                 onApply={apply}
                 onReset={() => changeInstrument(applied.slug)}
+                canApply={canApply}
+                canReset={canReset}
                 exportHref={exportUrl(applied)}
               />
             }
