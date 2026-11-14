@@ -7,6 +7,8 @@ import { formatDate, formatNumber, formatSigned } from "../../../../lib/format";
 import { calculatePivot, getPivot } from "../api";
 import { priceText } from "../constants";
 import type { Instrument, PivotResponse } from "../types";
+import DatePicker from "@/components/ui/DatePicker";
+import Select from "@/components/ui/Select";
 
 export type PivotPreset = { slug: string; date: string; id: number };
 
@@ -227,34 +229,29 @@ const submit = (e: React.FormEvent) => {
                 <label htmlFor="pivot-instrumen" className={label}>
                   Produk
                 </label>
-                <select
+                <Select
                   id="pivot-instrumen"
-                  className={field}
                   value={slug}
-                  onChange={(e) => {
-                    setSlug(e.target.value);
+                  onChange={(v) => {
+                    setSlug(v);
                     setFormError("");
                   }}
-                >
-                  {instruments.length === 0 && <option value={slug}>Memuat…</option>}
-                  {instruments.map((i) => (
-                    <option key={i.slug} value={i.slug}>
-                      {i.label}
-                    </option>
-                  ))}
-                </select>
+                  options={
+                    instruments.length === 0
+                      ? [{ value: slug, label: "Memuat…" }]
+                      : instruments.map((i) => ({ value: i.slug, label: i.label }))
+                  }
+                />
               </div>
               <div>
                 <label htmlFor="pivot-tanggal" className={label}>
                   Tanggal
                 </label>
-                <input
+                <DatePicker
                   id="pivot-tanggal"
-                  type="date"
-                  className={field}
                   value={date}
-                  onChange={(e) => {
-                    setDate(e.target.value);
+                  onChange={(v) => {
+                    setDate(v);
                     setFormError("");
                   }}
                 />

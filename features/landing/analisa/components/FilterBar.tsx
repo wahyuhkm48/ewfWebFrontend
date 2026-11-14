@@ -1,5 +1,6 @@
 import { Download, Filter, RotateCcw } from "lucide-react";
 import type { Filters } from "../types";
+import DatePicker from "@/components/ui/DatePicker";
 
 type Props = {
   draft: Filters;
@@ -37,22 +38,21 @@ export default function FilterBar({
     >
       <div>
         <span className={fieldLabel}>Rentang Tanggal</span>
-        <div className="grid grid-cols-2 gap-2 sm:max-w-md">
-          <input
-            type="date"
-            aria-label="Tanggal mulai"
-            className={input}
+        <div className="grid gap-2 sm:max-w-md sm:grid-cols-2">
+          <DatePicker
+            ariaLabel="Tanggal mulai"
+            placeholder="Tanggal mulai"
             value={draft.from}
             max={draft.to || undefined}
-            onChange={(e) => onChange({ ...draft, from: e.target.value })}
+            onChange={(from) => onChange({ ...draft, from })}
           />
-          <input
-            type="date"
-            aria-label="Tanggal akhir"
-            className={input}
+          <DatePicker
+            ariaLabel="Tanggal akhir"
+            placeholder="Tanggal akhir"
+            align="right"
             value={draft.to}
             min={draft.from || undefined}
-            onChange={(e) => onChange({ ...draft, to: e.target.value })}
+            onChange={(to) => onChange({ ...draft, to })}
           />
         </div>
       </div>
