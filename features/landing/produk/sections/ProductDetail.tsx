@@ -6,7 +6,7 @@ import type { ProductDetail as Product } from "@/features/landing/produk/data";
 type Props = { product: Product; reverse?: boolean };
 
 export default function ProductDetail({ product: p, reverse }: Props) {
-  const up = p.change.startsWith("+");
+  const chip = reverse ? "bg-white shadow-sm" : "bg-softgrey";
 
   return (
     <article
@@ -16,119 +16,70 @@ export default function ProductDetail({ product: p, reverse }: Props) {
       }`}
     >
       <div className="grid items-center gap-8 lg:grid-cols-2">
-        {/* Gambar + kartu harga */}
         <div className={reverse ? "lg:order-2" : ""}>
           <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-navy">
             <Image
               src={p.image}
-              alt={p.title}
+              alt={p.name}
               fill
               sizes="(min-width: 1024px) 45vw, 100vw"
               className="object-cover"
             />
-            <div className="absolute inset-x-4 bottom-4 flex items-center justify-between rounded-xl bg-white p-4 shadow-xl">
-              <div>
-                <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-muted">
-                  {p.priceLabel}
-                </p>
-                <p className="type-h3 text-ink">{p.price}</p>
-              </div>
-              <span
-                className={`rounded-lg px-2.5 py-1 text-[11px] font-semibold ${
-                  up ? "bg-bull/10 text-bull" : "bg-bear/10 text-bear"
-                }`}
-              >
-                {p.change} ({p.changeAbs})
-              </span>
-            </div>
+            <div className="absolute inset-0 bg-linear-to-t from-navy/50 via-transparent to-transparent" />
+            <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[11px] font-semibold text-ink backdrop-blur">
+              {p.category}
+            </span>
           </div>
         </div>
 
-        {/* Konten */}
         <div>
-          <h2 className="type-h2 text-ink">{p.title}</h2>
-          <p className="mt-2 text-[14px] leading-6 text-muted">{p.desc}</p>
+          <h2 className="type-h2 text-ink">{p.name}</h2>
+          <p className="mt-1 text-[13px] font-semibold text-brand">{p.ticker}</p>
+          <p className="mt-3 text-[14px] leading-6 text-muted">{p.desc}</p>
 
-          <p className="type-label mt-4 text-ink">Mengapa Diperdagangkan:</p>
-          <ul className="mt-2 grid gap-2 sm:grid-cols-3">
-            {p.why.map((w) => (
+          <ul className="mt-5 flex flex-wrap gap-2">
+            {p.highlights.map(({ icon: Icon, text }) => (
               <li
-                key={w}
-                className={`rounded-lg px-3 py-2 text-[12px] font-medium text-ink ${
-                  reverse ? "bg-white shadow-sm" : "bg-softgrey"
-                }`}
+                key={text}
+                className={`inline-flex items-center gap-2 rounded-full px-3.5 py-2 text-[12px] font-medium text-ink ${chip}`}
               >
-                {w}
+                <Icon size={14} className="text-brand" />
+                {text}
               </li>
             ))}
           </ul>
 
-          <div
-            className={`mt-4 rounded-xl p-3.5 ${
-              reverse ? "bg-white shadow-sm" : "bg-softgrey"
-            }`}
-          >
-            <div className="flex items-center justify-between gap-2">
-              <p className="type-label text-ink">Spesifikasi Kontrak Resmi</p>
-              <p className="text-[9px] font-medium uppercase tracking-[0.14em] text-muted">
-                Standar Kliring KBI & BBJ
-              </p>
-            </div>
-            <dl className="mt-2.5 grid grid-cols-2 gap-x-5 gap-y-2.5 sm:grid-cols-3">
-              {p.specs.map((s) => (
-                <div key={s.label}>
-                  <dt className="type-micro text-muted">{s.label}</dt>
-                  <dd className="text-[12px] font-semibold leading-snug text-ink">
-                    {s.value}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          </div>
-
-          <div className="mt-4 grid grid-cols-3 gap-4">
-            <Stat label="Perubahan Harian" value={p.change} tone={up ? "up" : "down"} />
-            <Stat label="Tertinggi Hari Ini" value={p.high} />
-            <Stat label="Terendah Hari Ini" value={p.low} />
-          </div>
+          <dl className="mt-5 grid grid-cols-2 gap-3">
+            {p.facts.map((f) => (
+              <div key={f.label} className={`rounded-xl p-3.5 ${chip}`}>
+                <dt className="type-micro text-muted">{f.label}</dt>
+                <dd className="mt-0.5 text-[14px] font-semibold leading-snug text-ink">
+                  {f.value}
+                </dd>
+              </div>
+            ))}
+          </dl>
+          <p className="mt-3 text-[11px] leading-4 text-muted">
+            Ukuran lot, margin, dan jam perdagangan lengkap mengikuti dokumen
+            kontrak resmi. Tanyakan ke Wakil Pialang Berjangka kami.
+          </p>
 
           <div className="mt-5 flex flex-wrap items-center gap-4">
             <Link
               href="/analisa"
               className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-[13px] font-semibold text-white transition hover:bg-brand/90"
             >
-              {p.analysisLabel} <ChevronRight size={14} />
+              Lihat Analisa <ChevronRight size={14} />
             </Link>
             <Link
               href="/analisa"
               className="inline-flex items-center gap-1 text-[13px] font-semibold text-muted hover:text-ink"
             >
-              Lihat Data Historis <ChevronRight size={12} />
+              Data Historis <ChevronRight size={12} />
             </Link>
           </div>
         </div>
       </div>
     </article>
-  );
-}
-
-function Stat({
-  label,
-  value,
-  tone,
-}: {
-  label: string;
-  value: string;
-  tone?: "up" | "down";
-}) {
-  const color =
-    tone === "up" ? "text-bull" : tone === "down" ? "text-bear" : "text-ink";
-  return (
-    <div>
-      <p className="text-[9px] font-medium uppercase tracking-[0.14em] text-muted">
-        {label}
-      </p>
-      <p className={`type-data mt-1 ${color}`}>{value}</p>
-    </div>
   );
 }

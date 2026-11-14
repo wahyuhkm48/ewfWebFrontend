@@ -1,26 +1,26 @@
 export const products = [
   {
-    category: "Komoditi Mulia",
-    name: "Emas Murni",
-    desc: "Lindung nilai inflasi & komoditi terpopuler dunia dengan likuiditas tinggi.",
+    category: "Logam Mulia",
+    name: "Emas",
+    desc: "Aset safe haven dengan harga mengacu pada pasar emas Loco London.",
     image: "/images/emas.webp",
   },
   {
-    category: "Energi Global",
-    name: "Minyak Mentah",
-    desc: "Energi global paling likuid dengan pergerakan dinamis pasar Brent.",
+    category: "Energi",
+    name: "Minyak Mentah Brent",
+    desc: "Patokan harga minyak dunia dari Laut Utara, bergerak mengikuti OPEC+ dan geopolitik.",
     image: "/images/minyak.webp",
   },
   {
-    category: "Indeks Saham Asia",
+    category: "Indeks Hong Kong",
     name: "Hang Seng Index",
-    desc: "Indeks 50 saham unggulan bursa Hong Kong kapitalisasi terbesar.",
+    desc: "Barometer pasar saham Hong Kong dari perusahaan berkapitalisasi terbesar.",
     image: "/images/hangseng.webp",
   },
   {
-    category: "Pasar Jepang",
+    category: "Indeks Jepang",
     name: "Nikkei 225",
-    desc: "Arah pasar finansial dan barometer industri raksasa teknologi Jepang.",
+    desc: "Indeks utama Bursa Tokyo yang berisi 225 perusahaan besar Jepang.",
     image: "/images/nikkei.webp",
   },
 ];
