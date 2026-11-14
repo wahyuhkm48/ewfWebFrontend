@@ -5,7 +5,7 @@ import { History } from "lucide-react";
 import ChartCard from "../components/ChartCard";
 import FilterBar from "../components/FilterBar";
 import HistoryTable from "../components/HistoryTable";
-import InstrumentSelect from "../components/InstrumentSelect";
+import InstrumentTabs from "../components/InstrumentTabs";
 import { exportUrl, getHistory, getLive } from "../api";
 import type { Filters, HistoryResponse, Instrument } from "../types";
 
@@ -118,9 +118,9 @@ export default function HistoryPanel({ instruments, active, onPivot }: Props) {
         </p>
       </div>
 
-      {/* 1. Instrumen (dipakai kartu, grafik, dan tabel) */}
+      {/* 1. Produk (dipakai grafik dan tabel) */}
       <div className="mt-6">
-        <InstrumentSelect
+        <InstrumentTabs
           instruments={instruments}
           value={applied.slug}
           onChange={changeInstrument}
