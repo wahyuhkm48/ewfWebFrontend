@@ -11,11 +11,11 @@ export default function ProductDetail({ product: p, reverse }: Props) {
   return (
     <article
       id={p.slug}
-      className={`scroll-mt-24 rounded-3xl border border-black/5 p-5 shadow-xl lg:p-6 ${
+      className={`scroll-mt-24 rounded-3xl border border-black/5 p-5 shadow-xl lg:flex lg:min-h-[42rem] lg:items-center lg:p-6 ${
         reverse ? "bg-softgrey" : "bg-white"
       }`}
     >
-      <div className="grid items-center gap-8 lg:grid-cols-2">
+      <div className="grid w-full items-center gap-8 lg:grid-cols-2">
         <div className={reverse ? "lg:order-2" : ""}>
           <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-navy">
             <Image

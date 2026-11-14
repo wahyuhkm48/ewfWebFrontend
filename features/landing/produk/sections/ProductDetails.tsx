@@ -27,7 +27,7 @@ export default function ProductDetails() {
     <section className="mx-auto max-w-[88rem] px-4 pb-16 pt-24 sm:px-6 lg:pb-24 lg:pt-28">
       <div
         id="produk"
-        className="h-[calc(100dvh-1rem)] min-h-[46rem] scroll-mt-24"
+        className="h-[calc(100dvh-1rem)] min-h-[48rem] scroll-mt-24"
       >
         <ScrollStack
           className="product-stack"
