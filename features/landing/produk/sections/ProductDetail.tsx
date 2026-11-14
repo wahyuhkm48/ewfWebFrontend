@@ -51,7 +51,10 @@ export default function ProductDetail({ product: p, reverse }: Props) {
 
           <dl className="mt-5 grid grid-cols-2 gap-3">
             {p.facts.map((f) => (
-              <div key={f.label} className={`rounded-xl p-3.5 ${chip}`}>
+              <div
+                key={f.label}
+                className={`rounded-xl p-3.5 ${chip} ${f.wide ? "col-span-2" : ""}`}
+              >
                 <dt className="type-micro text-muted">{f.label}</dt>
                 <dd className="mt-0.5 text-[14px] font-semibold leading-snug text-ink">
                   {f.value}
@@ -60,8 +63,8 @@ export default function ProductDetail({ product: p, reverse }: Props) {
             ))}
           </dl>
           <p className="mt-3 text-[11px] leading-4 text-muted">
-            Ukuran lot, margin, dan jam perdagangan lengkap mengikuti dokumen
-            kontrak resmi. Tanyakan ke Wakil Pialang Berjangka kami.
+            Penyelesaian tunai (cash settlement). Komisi, biaya menginap, dan ketentuan
+            lengkap mengikuti dokumen kontrak resmi.
           </p>
 
           <div className="mt-5 flex flex-wrap items-center gap-4">

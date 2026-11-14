@@ -3,7 +3,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 
-export type Fact = { label: string; value: string };
+export type Fact = { label: string; value: string; wide?: boolean };
 export type Highlight = { icon: LucideIcon; text: string };
 
 export type ProductDetail = {
@@ -23,7 +23,7 @@ export const productDetails: ProductDetail[] = [
     category: "Logam Mulia",
     name: "Emas",
     ticker: "XAU/USD · Loco London",
-    desc: "Aset safe haven paling likuid di dunia, dengan harga mengacu pada pasar emas Loco London.",
+    desc: "Aset safe haven yang banyak dipilih untuk lindung nilai, dengan harga mengacu pada pasar emas Loco London.",
     image: "/images/emas.webp",
     highlights: [
       { icon: ShieldCheck, text: "Aset lindung nilai" },
@@ -32,9 +32,14 @@ export const productDetails: ProductDetail[] = [
     ],
     facts: [
       { label: "Kode Kontrak", value: "XUL10" },
-      { label: "Acuan Harga", value: "Emas Loco London" },
-      { label: "Jenis Kontrak", value: "Gulir harian" },
-      { label: "Kurs", value: "Tetap, USD 1 = Rp 10.000" },
+      { label: "Ukuran Kontrak", value: "100 troy ons" },
+      { label: "Margin (Harian / Menginap)", value: "USD 1.000 / USD 3.000" },
+      { label: "Pergerakan Minimum", value: "USD 0,01 / troy ons" },
+      {
+        label: "Jam Perdagangan (Senin–Jumat, WIB)",
+        value: "06:00 – 03:30 · musim dingin s.d. 04:30",
+        wide: true,
+      },
     ],
   },
   {
@@ -50,10 +55,15 @@ export const productDetails: ProductDetail[] = [
       { icon: Flame, text: "Dipengaruhi OPEC+ & geopolitik" },
     ],
     facts: [
-      { label: "Kode Kontrak", value: "BCO10_BBJ" }, // verifikasi: kontrak multilateral JFX berkode MINIBRENT
-      { label: "Acuan Harga", value: "Brent Crude (Laut Utara)" },
-      { label: "Jenis Kontrak", value: "Gulir berkala" }, // verifikasi
-      { label: "Penyelesaian", value: "Tunai" },
+      { label: "Kode Kontrak", value: "BCO10_BBJ" },
+      { label: "Ukuran Kontrak", value: "1.000 barel" },
+      { label: "Margin (Harian / Menginap)", value: "USD 1.000 / USD 2.000" },
+      { label: "Pergerakan Minimum", value: "USD 0,01 / barel" },
+      {
+        label: "Jam Perdagangan (Senin–Jumat, WIB)",
+        value: "07:00 – 03:45 · musim dingin mulai 08:00",
+        wide: true,
+      },
     ],
   },
   {
@@ -70,9 +80,14 @@ export const productDetails: ProductDetail[] = [
     ],
     facts: [
       { label: "Kode Kontrak", value: "HKK50_BBJ" },
-      { label: "Acuan Harga", value: "Hang Seng Futures (HKEx)" },
-      { label: "Nilai per Poin", value: "Rp 50.000" },
-      { label: "Penyelesaian", value: "Tunai" },
+      { label: "Ukuran Kontrak", value: "USD 5 / poin" },
+      { label: "Margin (Harian / Menginap)", value: "USD 1.000 / USD 2.000" },
+      { label: "Pergerakan Minimum", value: "1 poin" },
+      {
+        label: "Jam Perdagangan (Senin–Jumat, WIB)",
+        value: "08:15–11:00 · 12:00–15:30 · 16:00–02:00",
+        wide: true,
+      },
     ],
   },
   {
@@ -89,9 +104,14 @@ export const productDetails: ProductDetail[] = [
     ],
     facts: [
       { label: "Kode Kontrak", value: "JPK50_BBJ" },
-      { label: "Acuan Harga", value: "Nikkei 225 Futures (SGX)" },
-      { label: "Nilai per Poin", value: "Rp 50.000" },
-      { label: "Penyelesaian", value: "Tunai" },
+      { label: "Ukuran Kontrak", value: "USD 5 / poin" },
+      { label: "Margin (Harian / Menginap)", value: "USD 1.000 / USD 2.000" },
+      { label: "Pergerakan Minimum", value: "5 poin" },
+      {
+        label: "Jam Perdagangan (Senin–Jumat, WIB)",
+        value: "06:30–13:55 · 14:10–03:45",
+        wide: true,
+      },
     ],
   },
 ];
