@@ -8,16 +8,24 @@ type Props = {
 };
 
 export default function InstrumentTabs({ instruments, value, onChange }: Props) {
+  const current = instruments.find((i) => i.slug === value);
+
   return (
-    <div className="rounded-2xl bg-softgrey px-4 py-2 sm:px-5">
-      {/* w-fit + mx-auto: terpusat saat muat, bisa digeser ke samping di layar sempit */}
-      <div className="mx-auto w-fit max-w-full overflow-x-auto px-1 py-3">
+    <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+      <div className="min-w-0">
+        <p className="type-micro font-semibold uppercase tracking-[0.1em] text-muted">Produk</p>
+        <p className="truncate font-display text-lg font-extrabold text-ink">
+          {current?.label ?? "Memuat…"}
+        </p>
+      </div>
+
+      <div className="max-w-full overflow-x-auto">
         {instruments.length === 0 ? (
-          <div className="h-14 w-[30rem] max-w-full animate-pulse rounded-full bg-white" />
+          <div className="h-11 w-[26rem] max-w-full animate-pulse rounded-full bg-softgrey" />
         ) : (
           <SlidingTabs
-            variant="pill"
-            ariaLabel="Produk"
+            variant="track"
+            ariaLabel="Pilih produk"
             value={value}
             onChange={onChange}
             options={instruments.map((i) => ({ value: i.slug, label: i.short }))}

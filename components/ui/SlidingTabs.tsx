@@ -16,12 +16,13 @@ type Props<T extends string> = {
   value: T;
   onChange: (value: T) => void;
   ariaLabel: string;
-  /**
+    /**
    * pill    = tab utama (bulat besar, pill oranye, role tablist)
    * segment = toggle kecil dengan pill oranye
    * soft    = toggle kecil berlatar abu-abu dengan pill putih
+   * track   = pilihan sekunder: landasan abu-abu lembut, pill oranye, tanpa bayangan tebal
    */
-  variant?: "pill" | "segment" | "soft";
+  variant?: "pill" | "segment" | "soft" | "track";
 };
 
 const STYLES = {
@@ -48,6 +49,14 @@ const STYLES = {
     active: "text-ink",
     activeFallback: "bg-white shadow-sm",
     inactive: "text-muted hover:text-ink",
+  },
+  track: {
+    root: "rounded-full bg-softgrey p-1.5",
+    item: "rounded-full px-3.5 py-2 text-xs sm:px-5 sm:py-2.5 sm:text-[13px]",
+    indicator: "rounded-full bg-brand shadow-sm",
+    active: "text-white",
+    activeFallback: "bg-brand",
+    inactive: "text-ink hover:text-brand",
   },
 } as const;
 
