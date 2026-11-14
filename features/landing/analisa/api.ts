@@ -8,10 +8,13 @@ import type {
 } from "./types";
 
 function historyParams(filters: Filters, page?: number) {
-  const params = new URLSearchParams({ interval: filters.interval });
+  const params = new URLSearchParams();
   if (filters.from) params.set("from", filters.from);
   if (filters.to) params.set("to", filters.to);
-  if (page) params.set("page", String(page));
+  if (page) {
+    params.set("page", String(page));
+    params.set("per_page", "10");
+  }
   return params.toString();
 }
 

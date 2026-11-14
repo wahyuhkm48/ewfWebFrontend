@@ -3,19 +3,19 @@
 import { useRef, useState } from "react";
 import { Maximize2 } from "lucide-react";
 import TradingViewChart from "@/components/ui/TradingViewChart";
+import SlidingTabs from "@/components/ui/SlidingTabs";
 import { INTERVALS } from "../constants";
 import type { Interval } from "../types";
-import SlidingTabs from "@/components/ui/SlidingTabs";
 
 type Props = {
   short: string;
   symbol: string | null;
-  interval: Interval;
   /** Widget hanya dibuat saat tab terlihat agar ukurannya benar. */
   active: boolean;
 };
 
-export default function ChartCard({ short, symbol, interval, active }: Props) {
+export default function ChartCard({ short, symbol, active }: Props) {
+  const [interval, setIntervalValue] = useState<Interval>("daily");
   const [style, setStyle] = useState<"1" | "3">("1");
   const frameRef = useRef<HTMLDivElement>(null);
   const meta = INTERVALS.find((i) => i.value === interval) ?? INTERVALS[0];
@@ -41,7 +41,14 @@ export default function ChartCard({ short, symbol, interval, active }: Props) {
           </span>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <SlidingTabs
+            variant="soft"
+            ariaLabel="Interval grafik"
+            value={interval}
+            onChange={setIntervalValue}
+            options={INTERVALS.map((i) => ({ value: i.value, label: i.label }))}
+          />
           <SlidingTabs
             variant="soft"
             ariaLabel="Tipe grafik"

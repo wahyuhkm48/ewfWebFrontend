@@ -1,11 +1,14 @@
+import type { ReactNode } from "react";
 import { formatDate, formatNumber, formatPercent } from "@/lib/format";
-import { pageRange } from "@/lib/pagination";
 import type { HistoryRow, PageMeta } from "../types";
+import HistoryPagination from "./HistoryPagination";
 
 type Props = {
   rows: HistoryRow[];
   meta: PageMeta | null;
   loading: boolean;
+  /** Filter rentang tanggal, ditampilkan di antara judul dan tabel. */
+  toolbar?: ReactNode;
   onPivot: (date: string) => void;
   onPage: (page: number) => void;
 };
@@ -13,7 +16,7 @@ type Props = {
 const th = "px-4 py-3.5 text-[11px] font-semibold uppercase tracking-[0.1em]";
 const thRight = `${th} text-right`;
 
-export default function HistoryTable({ rows, meta, loading, onPivot, onPage }: Props) {
+export default function HistoryTable({ rows, meta, loading, toolbar, onPivot, onPage }: Props) {
   return (
     <div>
       <div className="flex flex-wrap items-baseline justify-between gap-2">
@@ -24,6 +27,8 @@ export default function HistoryTable({ rows, meta, loading, onPivot, onPage }: P
           </p>
         )}
       </div>
+
+      {toolbar && <div className="mt-4">{toolbar}</div>}
 
       <div className="mt-4 overflow-x-auto rounded-2xl border border-softgrey">
         <table className={`w-full min-w-[720px] text-[13px] ${loading ? "opacity-60" : ""}`}>
@@ -87,45 +92,11 @@ export default function HistoryTable({ rows, meta, loading, onPivot, onPage }: P
           </p>
 
           {meta.last_page > 1 && (
-            <nav aria-label="Halaman data historis" className="flex flex-wrap items-center gap-1.5">
-              <button
-                type="button"
-                disabled={meta.current_page <= 1}
-                onClick={() => onPage(meta.current_page - 1)}
-                className="rounded-lg border border-softgrey px-3 py-1.5 text-xs font-medium text-ink transition enabled:hover:bg-softgrey disabled:opacity-40"
-              >
-                Sebelumnya
-              </button>
-              {pageRange(meta.current_page, meta.last_page).map((p, i) =>
-                p === "gap" ? (
-                  <span key={`gap-${i}`} className="px-1 text-muted">
-                    …
-                  </span>
-                ) : (
-                  <button
-                    key={p}
-                    type="button"
-                    aria-current={p === meta.current_page ? "page" : undefined}
-                    onClick={() => onPage(p)}
-                    className={`h-8 min-w-8 rounded-lg px-2 text-xs font-semibold transition ${
-                      p === meta.current_page
-                        ? "bg-brand text-white"
-                        : "border border-softgrey text-ink hover:bg-softgrey"
-                    }`}
-                  >
-                    {p}
-                  </button>
-                ),
-              )}
-              <button
-                type="button"
-                disabled={meta.current_page >= meta.last_page}
-                onClick={() => onPage(meta.current_page + 1)}
-                className="rounded-lg border border-softgrey px-3 py-1.5 text-xs font-medium text-ink transition enabled:hover:bg-softgrey disabled:opacity-40"
-              >
-                Berikutnya
-              </button>
-            </nav>
+            <HistoryPagination
+              current={meta.current_page}
+              last={meta.last_page}
+              onChange={onPage}
+            />
           )}
         </div>
       )}

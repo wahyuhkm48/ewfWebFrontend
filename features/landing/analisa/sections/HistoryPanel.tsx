@@ -5,6 +5,7 @@ import { History } from "lucide-react";
 import ChartCard from "../components/ChartCard";
 import FilterBar from "../components/FilterBar";
 import HistoryTable from "../components/HistoryTable";
+import InstrumentSelect from "../components/InstrumentSelect";
 import StatCards from "../components/StatCards";
 import { exportUrl, getHistory, getLive } from "../api";
 import type { Filters, HistoryResponse, Instrument } from "../types";
@@ -16,7 +17,8 @@ type Props = {
   onPivot: (slug: string, date: string) => void;
 };
 
-const INITIAL: Filters = { slug: "gold", from: "", to: "", interval: "daily" };
+// Tanpa from/to = tampilkan semua data
+const INITIAL: Filters = { slug: "gold", from: "", to: "" };
 
 export default function HistoryPanel({ instruments, active, onPivot }: Props) {
   const [draft, setDraft] = useState<Filters>(INITIAL);
@@ -39,7 +41,7 @@ export default function HistoryPanel({ instruments, active, onPivot }: Props) {
         setData(res);
         setError(null);
         setLoadedKey(key);
-        // Isi kolom tanggal dengan rentang bawaan dari server saat pertama kali tampil
+        // Isi kolom tanggal dengan rentang penuh dari server saat pertama kali tampil
         setDraft((d) => (d.from ? d : { ...d, from: res.filters.from, to: res.filters.to }));
       })
       .catch((e: unknown) => {
@@ -62,11 +64,20 @@ export default function HistoryPanel({ instruments, active, onPivot }: Props) {
     return () => controller.abort();
   }, []);
 
+  // Ganti instrumen / reset: kembali ke semua data untuk instrumen tersebut
+  const changeInstrument = (slug: string) => {
+    const next: Filters = { slug, from: "", to: "" };
+    setDraft(next);
+    setApplied(next);
+    setPage(1);
+  };
+
   const apply = () => {
     setApplied(draft);
     setPage(1);
   };
 
+  const selected = instruments.find((i) => i.slug === applied.slug);
   const instrument = data?.instrument;
 
   return (
@@ -98,57 +109,67 @@ export default function HistoryPanel({ instruments, active, onPivot }: Props) {
         </p>
       </div>
 
+      {/* 1. Instrumen (dipakai kartu, grafik, dan tabel) */}
       <div className="mt-6">
-        <FilterBar
+        <InstrumentSelect
           instruments={instruments}
-          draft={draft}
-          onChange={setDraft}
-          onApply={apply}
-          exportHref={exportUrl(applied)}
+          value={applied.slug}
+          onChange={changeInstrument}
         />
       </div>
 
-      {failed ? (
-        <div role="alert" className="mt-6 rounded-2xl border border-bear/30 bg-bear/5 p-6 text-center">
-          <p className="font-semibold text-ink">{error?.message}</p>
-          <button
-            type="button"
-            onClick={() => setApplied((a) => ({ ...a }))}
-            className="mt-3 rounded-xl bg-brand px-4 py-2 text-[13px] font-semibold text-white transition hover:bg-brand/90"
-          >
-            Coba Lagi
-          </button>
+      {/* 2. Kartu ringkasan */}
+      {!failed && (
+        <div className="mt-6">
+          <StatCards
+            summary={data?.summary ?? null}
+            slug={instrument?.slug ?? applied.slug}
+            loading={loading}
+          />
         </div>
-      ) : (
-        <>
-          <div className="mt-6">
-            <StatCards
-              summary={data?.summary ?? null}
-              slug={instrument?.slug ?? applied.slug}
-              loading={loading}
-            />
-          </div>
-
-          <div className="mt-6">
-            <ChartCard
-              short={instrument?.short ?? "…"}
-              symbol={instrument?.tradingview_symbol ?? null}
-              interval={data?.filters.interval ?? applied.interval}
-              active={active}
-            />
-          </div>
-
-          <div className="mt-8">
-            <HistoryTable
-              rows={data?.data ?? []}
-              meta={data?.meta ?? null}
-              loading={loading}
-              onPivot={(date) => onPivot(instrument?.slug ?? applied.slug, date)}
-              onPage={setPage}
-            />
-          </div>
-        </>
       )}
+
+      {/* 3. Grafik: hanya interval dan tipe grafik */}
+      <div className="mt-6">
+        <ChartCard
+          short={selected?.short ?? "…"}
+          symbol={selected?.tradingview_symbol ?? null}
+          active={active}
+        />
+      </div>
+
+      {/* 4. Data historis: rentang tanggal, tabel, pagination */}
+      <div className="mt-8">
+        {failed ? (
+          <div role="alert" className="rounded-2xl border border-bear/30 bg-bear/5 p-6 text-center">
+            <p className="font-semibold text-ink">{error?.message}</p>
+            <button
+              type="button"
+              onClick={() => setApplied((a) => ({ ...a }))}
+              className="mt-3 rounded-xl bg-brand px-4 py-2 text-[13px] font-semibold text-white transition hover:bg-brand/90"
+            >
+              Coba Lagi
+            </button>
+          </div>
+        ) : (
+          <HistoryTable
+            rows={data?.data ?? []}
+            meta={data?.meta ?? null}
+            loading={loading}
+            toolbar={
+              <FilterBar
+                draft={draft}
+                onChange={setDraft}
+                onApply={apply}
+                onReset={() => changeInstrument(applied.slug)}
+                exportHref={exportUrl(applied)}
+              />
+            }
+            onPivot={(date) => onPivot(instrument?.slug ?? applied.slug, date)}
+            onPage={setPage}
+          />
+        )}
+      </div>
     </div>
   );
 }

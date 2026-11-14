@@ -108,5 +108,4 @@ export type Filters = {
   slug: string;
   from: string;
   to: string;
-  interval: Interval;
 };
