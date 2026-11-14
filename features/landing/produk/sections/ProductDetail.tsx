@@ -11,7 +11,7 @@ export default function ProductDetail({ product: p, reverse }: Props) {
   return (
     <article
       id={p.slug}
-      className={`scroll-mt-24 rounded-3xl border border-black/5 p-5 shadow-xl lg:flex lg:min-h-[36rem] lg:items-center lg:p-6 ${
+      className={`scroll-mt-24 rounded-3xl border border-black/5 p-5 shadow-xl lg:flex lg:min-h-[40rem] lg:items-center lg:p-6 ${
         reverse ? "bg-softgrey" : "bg-white"
       }`}
     >
