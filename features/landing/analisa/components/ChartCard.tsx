@@ -4,8 +4,7 @@ import { useRef, useState } from "react";
 import { Maximize2 } from "lucide-react";
 import TradingViewChart from "@/components/ui/TradingViewChart";
 import SlidingTabs from "@/components/ui/SlidingTabs";
-import { INTERVALS } from "../constants";
-import type { Interval } from "../types";
+import { CHART_INTERVALS, type ChartInterval } from "../constants";
 
 type Props = {
   short: string;
@@ -15,10 +14,10 @@ type Props = {
 };
 
 export default function ChartCard({ short, symbol, active }: Props) {
-  const [interval, setIntervalValue] = useState<Interval>("daily");
+  const [interval, setIntervalValue] = useState<ChartInterval>("D");
   const [style, setStyle] = useState<"1" | "3">("1");
   const frameRef = useRef<HTMLDivElement>(null);
-  const meta = INTERVALS.find((i) => i.value === interval) ?? INTERVALS[0];
+  const meta = CHART_INTERVALS.find((i) => i.value === interval) ?? CHART_INTERVALS[3];
 
   const toggleFullscreen = () => {
     const el = frameRef.current;
@@ -37,7 +36,7 @@ export default function ChartCard({ short, symbol, active }: Props) {
         <div className="flex flex-wrap items-center gap-3">
           <h3 className="type-h3 text-ink">Grafik Pergerakan {short}</h3>
           <span className="rounded-full bg-navy px-2.5 py-1 text-[10px] font-semibold text-white">
-            {style === "1" ? "Candlestick" : "Area"} {meta.label}
+            {style === "1" ? "Candlestick" : "Area"} {meta.name}
           </span>
         </div>
 
@@ -47,7 +46,7 @@ export default function ChartCard({ short, symbol, active }: Props) {
             ariaLabel="Interval grafik"
             value={interval}
             onChange={setIntervalValue}
-            options={INTERVALS.map((i) => ({ value: i.value, label: i.label }))}
+            options={CHART_INTERVALS.map((i) => ({ value: i.value, label: i.label }))}
           />
           <SlidingTabs
             variant="soft"
@@ -74,7 +73,7 @@ export default function ChartCard({ short, symbol, active }: Props) {
         {active && symbol ? (
           <TradingViewChart
             symbol={symbol}
-            interval={meta.tradingview}
+            interval={interval}
             style={style}
             className="h-full w-full"
           />

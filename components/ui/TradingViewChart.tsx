@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 type Props = {
   /** Contoh: "OANDA:XAUUSD" */
   symbol: string;
-  interval?: "D" | "W" | "M";
+  interval?: "1" | "30" | "60" | "D" | "W" | "M";
   /** "1" = candlestick, "3" = area */
   style?: "1" | "3";
   className?: string;
