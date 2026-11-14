@@ -1,4 +1,4 @@
-import Link from "next/link";
+import ExpandLink from "@/components/ui/ExpandLink";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { getNews } from "@/features/landing/berita/api";
 import NewsCard from "@/features/landing/berita/components/NewsCard";
@@ -15,14 +15,9 @@ export default async function News() {
 
   return (
     <section className="mx-auto max-w-7xl px-4 pb-50 sm:px-6">
-      <div className="flex items-end justify-between gap-4">
-        <SectionHeading eyebrow="Kabar Terkini" title="Berita Pasar Finansial Global" />
-        <Link
-          href="/berita"
-          className="shrink-0 text-[13px] font-semibold text-brand hover:underline"
-        >
-          Jelajahi Semua Berita →
-        </Link>
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <SectionHeading eyebrow="Berita Terkini" title="Berita Pasar Finansial Global" />
+        <ExpandLink href="/berita">Jelajahi Semua Berita</ExpandLink>
       </div>
 
       {items.length > 0 ? (
