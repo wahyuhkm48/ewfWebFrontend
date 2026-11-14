@@ -5,7 +5,6 @@ import {
   Users,
   type LucideIcon,
 } from "lucide-react";
-import Pill from "@/components/ui/Pill";
 
 const logos = {
   kemendag: { src: "/images/kemendag.webp", alt: "Logo Kementerian Perdagangan" },
@@ -120,8 +119,7 @@ export default function LegalStructure() {
     <section id="legalitas" className="mx-auto max-w-7xl scroll-mt-28 px-4 pt-16 sm:px-6">
       <div className="rounded-[2rem] border border-softgrey bg-softgrey/50 p-6 sm:p-10">
         <div className="text-center">
-          <Pill tone="white">Kepatuhan & Tata Kelola</Pill>
-          <h2 className="type-h2 mt-4 text-ink">Struktur Legalitas & Pengawasan</h2>
+          <h2 className="type-h2 text-ink">Struktur Legalitas & Pengawasan</h2>
           <p className="type-body mt-2 text-muted">
             Posisi EWF dalam ekosistem perdagangan berjangka Indonesia
           </p>
@@ -215,10 +213,7 @@ export default function LegalStructure() {
 
           {/* Level 4: EWF */}
           <div className="mx-auto max-w-2xl rounded-2xl border-t-4 border-t-brand bg-white p-6 text-center shadow-xl ring-1 ring-brand/30">
-            <Pill tone="dark" className="!tracking-wider">
-              Pialang Berjangka Resmi (EWF)
-            </Pill>
-            <div className="mt-3 flex flex-col items-center">
+            <div className="flex flex-col items-center">
               <LogoBox {...logos.ewf} />
               <h3 className="mt-1 font-display text-lg font-extrabold uppercase text-ink">
                 PT Equityworld Futures

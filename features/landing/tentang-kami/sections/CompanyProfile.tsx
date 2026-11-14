@@ -1,14 +1,12 @@
 import Image from "next/image";
 import { Award, Building2 } from "lucide-react";
-import Pill from "@/components/ui/Pill";
 
 export default function CompanyProfile() {
   return (
     <section id="profil" className="mx-auto max-w-7xl scroll-mt-28 px-4 pt-16 sm:px-6">
       <div className="grid items-center gap-10 rounded-3xl bg-white p-6 shadow-lg sm:p-10 lg:grid-cols-[1.25fr_1fr]">
         <div>
-          <Pill>Profil Perusahaan</Pill>
-          <h2 className="type-h2 mt-4 text-ink">PT Equityworld Futures (EWF)</h2>
+          <h2 className="type-h2 text-ink">PT Equityworld Futures (EWF)</h2>
 
           <p className="mt-5 text-[15px] leading-7 text-muted">
             PT Equityworld Futures (“EWF”) hadir sebagai mitra investasi yang

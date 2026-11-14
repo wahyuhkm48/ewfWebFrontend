@@ -27,7 +27,6 @@ export const offices: Office[] = [
     street: "Jl. Jend. Sudirman No.86, Jakarta Pusat 10220",
     phone: "+62 21 27889280 (Hunting)",
     fax: "+62 21 27889277",
-    email: "corporate@equityworld-futures.co.id",
     mapUrl: "https://maps.google.com/?q=Sahid+Sudirman+Center+Jakarta",
   },
   {
