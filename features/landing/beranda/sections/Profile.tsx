@@ -23,7 +23,7 @@ export default function Profile() {
             </span>
             <div>
               <p className="text-[13px] font-semibold">Tahun Dedikasi Resmi</p>
-              <p className="type-micro text-white/60">Sejak 2004 di Indonesia</p>
+              <p className="type-micro text-white/60">Sejak 2005 di Indonesia</p>
             </div>
           </div>
         </div>
@@ -41,7 +41,7 @@ export default function Profile() {
           <p className="mt-5 text-[15px] leading-7 text-muted">
             PT Equityworld Futures merupakan perusahaan pialang berjangka resmi
             anggota Bursa Komoditi dan Derivatif Indonesia (ICDX) serta Lembaga
-            Kliring ICH. Berdiri sejak tahun 2004 dengan izin operasional Badan
+            Kliring ICH. Berdiri sejak tahun 2005 dengan izin operasional Badan
             Pengawas Perdagangan Berjangka Komoditi (BAPPEBTI).
           </p>
           <p className="mt-5 text-[15px] leading-7 text-muted">
