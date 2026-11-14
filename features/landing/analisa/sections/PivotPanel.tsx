@@ -2,11 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { Calculator } from "lucide-react";
-import { formatDate, formatNumber, formatPercent } from "../../../../lib/format";
+import SlidingTabs from "@/components/ui/SlidingTabs";
+import { formatDate, formatNumber, formatPercent, formatSigned } from "../../../../lib/format";
 import { calculatePivot, getPivot } from "../api";
 import { priceText } from "../constants";
 import type { Instrument, PivotResponse } from "../types";
-import SlidingTabs from "@/components/ui/SlidingTabs";
 
 export type PivotPreset = { slug: string; date: string; id: number };
 
@@ -17,9 +17,18 @@ type Props = {
 
 type Mode = "historis" | "manual";
 
-type Request =
-  | { id: number; mode: "historis"; slug: string; date: string }
-  | { id: number; mode: "manual"; high: number; low: number; close: number };
+type RequestInput =
+  | { mode: "historis"; slug: string; date: string }
+  | { mode: "manual"; high: number; low: number; close: number };
+
+type Request = RequestInput & { id: number };
+
+function isSameInput(a: RequestInput, b: RequestInput) {
+  if (a.mode === "historis") {
+    return b.mode === "historis" && a.slug === b.slug && a.date === b.date;
+  }
+  return b.mode === "manual" && a.high === b.high && a.low === b.low && a.close === b.close;
+}
 
 const ROWS = [
   ["resistance4", "R4", "r"],
@@ -41,6 +50,34 @@ const ROWS = [
   ["support4", "S4", "s"],
 ] as const;
 
+// Nilai "bias" berasal dari backend; yang ditampilkan ke pengunjung hanya BUY / SELL / NETRAL.
+const ACTIONS = [
+  {
+    bias: "bullish",
+    rule: "Open > PP",
+    label: "BUY",
+    badge: "bg-bull text-white",
+    box: "border-bull bg-bull/10 text-bull",
+    relation: "di atas",
+  },
+  {
+    bias: "bearish",
+    rule: "Open < PP",
+    label: "SELL",
+    badge: "bg-bear text-white",
+    box: "border-bear bg-bear/10 text-bear",
+    relation: "di bawah",
+  },
+  {
+    bias: "netral",
+    rule: "Open = PP",
+    label: "NETRAL",
+    badge: "bg-muted text-white",
+    box: "border-muted bg-softgrey text-ink",
+    relation: "sama dengan",
+  },
+] as const;
+
 const label = "type-micro mb-1.5 block font-semibold uppercase tracking-[0.1em] text-muted";
 const field =
   "w-full rounded-xl border border-softgrey bg-white px-3 py-2.5 text-[13px] font-medium text-ink outline-none transition focus:border-brand";
@@ -51,19 +88,22 @@ export default function PivotPanel({ instruments, preset }: Props) {
   const [date, setDate] = useState(preset?.date ?? "");
   const [manual, setManual] = useState({ high: "", low: "", close: "" });
   const [formError, setFormError] = useState("");
-  const [request, setRequest] = useState<Request>({
-    id: 1,
-    mode: "historis",
-    slug: preset?.slug ?? "gold",
-    date: preset?.date ?? "",
-  });
+
+  // Tanpa preset, hasil baru muncul setelah tombol "Hitung Pivot Point" diklik.
+  // Preset datang dari tombol Pivot di tabel historis, jadi langsung dihitung.
+  const [request, setRequest] = useState<Request | null>(
+    preset ? { id: 1, mode: "historis", slug: preset.slug, date: preset.date } : null,
+  );
   const [result, setResult] = useState<{ id: number; data?: PivotResponse; error?: string } | null>(
     null,
   );
 
-  const loading = result?.id !== request.id;
+  const loading = request !== null && result?.id !== request.id;
 
   useEffect(() => {
+    if (!request) return;
+
+    const { id } = request;
     const controller = new AbortController();
     const run =
       request.mode === "historis"
@@ -74,13 +114,11 @@ export default function PivotPanel({ instruments, preset }: Props) {
           );
 
     run
-      .then((data: PivotResponse) =>
-        setResult({ id: request.id, data })
-      )
+      .then((data: PivotResponse) => setResult({ id, data }))
       .catch((e: unknown) => {
         if (controller.signal.aborted) return;
         setResult({
-          id: request.id,
+          id,
           error: e instanceof Error ? e.message : "Perhitungan gagal. Coba lagi.",
         });
       });
@@ -88,27 +126,39 @@ export default function PivotPanel({ instruments, preset }: Props) {
     return () => controller.abort();
   }, [request]);
 
+  // Isi form saat ini, dalam bentuk yang sama dengan request.
+  const draft: RequestInput | null =
+    mode === "historis"
+      ? { mode: "historis", slug, date }
+      : manual.high && manual.low && manual.close
+        ? {
+            mode: "manual",
+            high: Number(manual.high),
+            low: Number(manual.low),
+            close: Number(manual.close),
+          }
+        : null;
+
+  // Hasil untuk input yang sama sudah tampil: tidak perlu menghitung ulang.
+  const upToDate =
+    request !== null &&
+    result !== null &&
+    result.id === request.id &&
+    !result.error &&
+    draft !== null &&
+    isSameInput(request, draft);
+
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
     setFormError("");
 
-    if (mode === "historis") {
-      setRequest((r) => ({ id: r.id + 1, mode: "historis", slug, date }));
-      return;
-    }
-
-    if (!manual.high || !manual.low || !manual.close) {
+    if (!draft) {
       setFormError("Isi nilai High, Low, dan Close terlebih dahulu.");
       return;
     }
+    if (loading || upToDate) return;
 
-    setRequest((r) => ({
-      id: r.id + 1,
-      mode: "manual",
-      high: Number(manual.high),
-      low: Number(manual.low),
-      close: Number(manual.close),
-    }));
+    setRequest((r) => ({ ...draft, id: (r?.id ?? 0) + 1 }));
   };
 
   const data = result?.data;
@@ -123,7 +173,30 @@ export default function PivotPanel({ instruments, preset }: Props) {
           return Math.abs(value - current) < Math.abs(bestValue - current) ? key : best;
         }, levelRows[0][0] as string);
 
-  const prefix = request.mode === "historis" ? request.slug : "";
+  const prefix = request?.mode === "historis" ? request.slug : "";
+
+  // Kartu OHLC: dari hari bursa acuan (mode historis) atau nilai input (mode manual, tanpa Open).
+  const ohlc = data?.basis
+    ? {
+        open: data.basis.open as number | null,
+        high: data.basis.high,
+        low: data.basis.low,
+        close: data.basis.close,
+      }
+    : data?.input
+      ? { open: null as number | null, ...data.input }
+      : null;
+  const cards = ohlc
+    ? ([
+        ["Open", ohlc.open],
+        ["High", ohlc.high],
+        ["Low", ohlc.low],
+        ["Close", ohlc.close],
+      ] as const)
+    : [];
+
+  const signal = data?.signal ?? null;
+  const action = signal ? (ACTIONS.find((a) => a.bias === signal.bias) ?? ACTIONS[2]) : null;
 
   return (
     <div className="rounded-3xl border border-softgrey bg-white p-5 shadow-sm sm:p-8">
@@ -215,14 +288,25 @@ export default function PivotPanel({ instruments, preset }: Props) {
 
           <button
             type="submit"
-            className="inline-flex items-center gap-2 rounded-xl bg-brand px-5 py-2.5 text-[13px] font-semibold text-white transition hover:bg-brand/90"
+            disabled={loading || upToDate}
+            className="inline-flex items-center gap-2 rounded-xl bg-brand px-5 py-2.5 text-[13px] font-semibold text-white transition hover:bg-brand/90 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            <Calculator size={14} /> Hitung Pivot Point
+            <Calculator size={14} /> {loading ? "Menghitung…" : "Hitung Pivot Point"}
           </button>
         </form>
 
         <div>
-          {result?.error ? (
+          {!request ? (
+            <div className="grid min-h-80 place-items-center rounded-2xl border border-dashed border-softgrey bg-surface p-8 text-center">
+              <div>
+                <Calculator size={28} className="mx-auto text-muted" />
+                <p className="mt-3 font-semibold text-ink">Belum ada perhitungan</p>
+                <p className="type-body mt-1 text-muted">
+                  Pilih sumber data, lalu klik “Hitung Pivot Point” untuk menampilkan level pivot.
+                </p>
+              </div>
+            </div>
+          ) : !loading && result?.error ? (
             <div role="alert" className="rounded-2xl border border-bear/30 bg-bear/5 p-6 text-center">
               <p className="font-semibold text-ink">{result.error}</p>
             </div>
@@ -230,59 +314,44 @@ export default function PivotPanel({ instruments, preset }: Props) {
             <div className="h-80 animate-pulse rounded-2xl bg-surface" />
           ) : (
             <div className={loading ? "opacity-60" : ""}>
-              <div className="flex flex-wrap gap-2 text-xs">
-                {data.basis && (
-                  <span className="rounded-full bg-softgrey px-3 py-1 font-medium text-ink">
-                    Dasar: {formatDate(data.basis.date)} · H {formatNumber(data.basis.high)} · L{" "}
-                    {formatNumber(data.basis.low)} · C {formatNumber(data.basis.close)}
-                  </span>
-                )}
-                {data.input && (
-                  <span className="rounded-full bg-softgrey px-3 py-1 font-medium text-ink">
-                    Input: H {formatNumber(data.input.high)} · L {formatNumber(data.input.low)} · C{" "}
-                    {formatNumber(data.input.close)}
-                  </span>
-                )}
-                {data.today_open != null && (
-                  <span className="rounded-full bg-sapphire/10 px-3 py-1 font-medium text-sapphire">
-                    Open {data.target_date ? formatDate(data.target_date) : "hari ini"}:{" "}
-                    {priceText(prefix, formatNumber(data.today_open))}
-                  </span>
-                )}
+              {/* Tanggal */}
+              <div className="flex flex-wrap items-end justify-between gap-2">
+                <div>
+                  <p className="type-micro font-semibold uppercase tracking-[0.1em] text-muted">
+                    {data.basis ? "Tanggal Data" : "Sumber Data"}
+                  </p>
+                  <p className="font-display text-lg font-extrabold text-ink">
+                    {data.basis ? formatDate(data.basis.date) : "Input Manual"}
+                  </p>
+                  {data.target_date && (
+                    <p className="type-micro text-muted">
+                      Level pivot untuk {formatDate(data.target_date)}
+                    </p>
+                  )}
+                </div>
                 {data.live && (
-                  <span className="rounded-full bg-bull/10 px-3 py-1 font-medium text-bull">
+                  <p className="rounded-full bg-bull/10 px-3 py-1 text-xs font-medium text-bull">
                     Harga live: {priceText(prefix, formatNumber(data.live.price))} (
                     {formatPercent(data.live.change_percent)})
-                  </span>
+                  </p>
                 )}
               </div>
 
-              {data.signal && (
-                <div
-                  className={`mt-4 rounded-2xl px-4 py-3 text-[13px] font-semibold ${
-                    data.signal.bias === "bullish"
-                      ? "bg-bull/10 text-bull"
-                      : data.signal.bias === "bearish"
-                        ? "bg-bear/10 text-bear"
-                        : "bg-softgrey text-muted"
-                  }`}
-                >
-                  Open {priceText(prefix, formatNumber(data.signal.open))}{" "}
-                  {data.signal.bias === "bullish"
-                    ? "di atas"
-                    : data.signal.bias === "bearish"
-                      ? "di bawah"
-                      : "sama dengan"}{" "}
-                  Pivot Point {formatNumber(data.signal.pivot_point)} (
-                  {formatNumber(data.signal.diff)}) →{" "}
-                  {data.signal.bias === "bullish"
-                    ? "Bias Bullish"
-                    : data.signal.bias === "bearish"
-                      ? "Bias Bearish"
-                      : "Netral"}
-                </div>
-              )}
+              {/* Kartu OHLC */}
+              <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+                {cards.map(([name, value]) => (
+                  <div key={name} className="rounded-2xl bg-softgrey p-3">
+                    <p className="type-micro font-semibold uppercase tracking-[0.1em] text-muted">
+                      {name}
+                    </p>
+                    <p className="mt-1 text-base font-extrabold text-ink xl:text-lg">
+                      {value == null ? "–" : priceText(prefix, formatNumber(value))}
+                    </p>
+                  </div>
+                ))}
+              </div>
 
+              {/* Tabel pivot point */}
               <div className="mt-4 overflow-hidden rounded-2xl border border-softgrey">
                 <table className="w-full text-[13px]">
                   <thead className="bg-navy text-left text-white">
@@ -339,8 +408,50 @@ export default function PivotPanel({ instruments, preset }: Props) {
                 </table>
               </div>
 
+              {/* Indikator aksi */}
+              <div className="mt-4 rounded-2xl border border-softgrey p-4">
+                <p className="type-micro font-semibold uppercase tracking-[0.1em] text-muted">
+                  Indikator Aksi
+                </p>
+
+                {signal && action ? (
+                  <>
+                    <div className="mt-3 flex flex-wrap items-center gap-3">
+                      <span className={`rounded-xl px-5 py-2 text-lg font-extrabold ${action.badge}`}>
+                        {action.label}
+                      </span>
+                      <p className="text-[13px] font-medium text-ink">
+                        Open {priceText(prefix, formatNumber(signal.open))} {action.relation} PP{" "}
+                        {formatNumber(signal.pivot_point)} (selisih {formatSigned(signal.diff)})
+                      </p>
+                    </div>
+
+                    <ul className="mt-3 grid gap-2 sm:grid-cols-3">
+                      {ACTIONS.map((a) => (
+                        <li
+                          key={a.bias}
+                          className={`flex items-center justify-between rounded-xl border px-3 py-2 text-xs font-semibold ${
+                            a.bias === signal.bias ? a.box : "border-softgrey text-muted"
+                          }`}
+                        >
+                          <span>{a.rule}</span>
+                          <span>{a.label}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </>
+                ) : (
+                  <p className="mt-2 text-[13px] text-muted">
+                    {data.basis
+                      ? "Harga Open untuk tanggal analisa belum tersedia."
+                      : "Indikator aksi memerlukan harga Open, jadi hanya tersedia pada mode “Dari Data Historis”."}
+                  </p>
+                )}
+              </div>
+
               <p className="type-micro mt-3 text-muted">
-                Level pivot adalah alat bantu analisa teknikal, bukan ajakan atau saran investasi.
+                Level pivot dan indikator aksi adalah alat bantu analisa teknikal, bukan ajakan atau
+                saran investasi.
               </p>
             </div>
           )}
