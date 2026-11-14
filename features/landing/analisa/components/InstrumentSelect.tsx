@@ -29,7 +29,7 @@ export default function InstrumentSelect({ instruments, value, onChange }: Props
         ))}
       </select>
       <p className="type-micro mt-2 text-muted">
-        Berlaku untuk kartu ringkasan, grafik, dan data historis di bawah.
+        Berlaku untuk grafik dan data historis di bawah.
       </p>
     </div>
   );
