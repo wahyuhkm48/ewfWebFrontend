@@ -1,6 +1,7 @@
 import { Download, Filter } from "lucide-react";
 import { INTERVALS } from "../constants";
 import type { Filters, Instrument } from "../types";
+import SlidingTabs from "@/components/ui/SlidingTabs";
 
 type Props = {
   instruments: Instrument[];
@@ -66,21 +67,12 @@ export default function FilterBar({ instruments, draft, onChange, onApply, expor
 
       <div>
         <span className={fieldLabel}>Interval</span>
-        <div className="inline-flex rounded-xl bg-white p-1" role="group" aria-label="Interval">
-          {INTERVALS.map((i) => (
-            <button
-              key={i.value}
-              type="button"
-              aria-pressed={draft.interval === i.value}
-              onClick={() => onChange({ ...draft, interval: i.value })}
-              className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
-                draft.interval === i.value ? "bg-brand text-white" : "text-ink hover:bg-softgrey"
-              }`}
-            >
-              {i.label}
-            </button>
-          ))}
-        </div>
+        <SlidingTabs
+          ariaLabel="Interval"
+          value={draft.interval}
+          onChange={(interval) => onChange({ ...draft, interval })}
+          options={INTERVALS.map((i) => ({ value: i.value, label: i.label }))}
+        />
       </div>
 
       <div className="flex gap-2">

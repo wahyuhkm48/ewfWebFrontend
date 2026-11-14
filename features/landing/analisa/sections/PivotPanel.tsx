@@ -6,6 +6,7 @@ import { formatDate, formatNumber, formatPercent } from "../../../../lib/format"
 import { calculatePivot, getPivot } from "../api";
 import { priceText } from "../constants";
 import type { Instrument, PivotResponse } from "../types";
+import SlidingTabs from "@/components/ui/SlidingTabs";
 
 export type PivotPreset = { slug: string; date: string; id: number };
 
@@ -139,26 +140,15 @@ export default function PivotPanel({ instruments, preset }: Props) {
 
       <div className="mt-6 grid gap-6 lg:grid-cols-[1fr_1.3fr]">
         <form onSubmit={submit} className="space-y-4 rounded-2xl bg-softgrey p-5">
-          <div className="inline-flex rounded-xl bg-white p-1" role="group" aria-label="Sumber data">
-            {(
-              [
-                ["historis", "Dari Data Historis"],
-                ["manual", "Input Manual"],
-              ] as const
-            ).map(([value, text]) => (
-              <button
-                key={value}
-                type="button"
-                aria-pressed={mode === value}
-                onClick={() => setMode(value)}
-                className={`rounded-lg px-3 py-1.5 text-xs font-semibold transition ${
-                  mode === value ? "bg-brand text-white" : "text-ink hover:bg-softgrey"
-                }`}
-              >
-                {text}
-              </button>
-            ))}
-          </div>
+          <SlidingTabs
+            ariaLabel="Sumber data"
+            value={mode}
+            onChange={setMode}
+            options={[
+              { value: "historis", label: "Dari Data Historis" },
+              { value: "manual", label: "Input Manual" },
+            ]}
+          />
 
           {mode === "historis" ? (
             <>

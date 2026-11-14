@@ -7,6 +7,7 @@ import { getInstruments } from "../api";
 import type { Instrument } from "../types";
 import HistoryPanel from "./HistoryPanel";
 import PivotPanel, { type PivotPreset } from "./PivotPanel";
+import SlidingTabs from "@/components/ui/SlidingTabs";
 
 type Tab = "history" | "pivot";
 
@@ -49,26 +50,20 @@ export default function AnalisaTabs() {
   return (
     <div id="panel" className="scroll-mt-28">
       <div className="flex justify-center">
-        <div
-          role="tablist"
-          aria-label="Alat analisa"
-          className="inline-flex rounded-full bg-white p-1.5 shadow-lg"
-        >
-          {TABS.map(({ id, label, icon: Icon }) => (
-            <button
-              key={id}
-              role="tab"
-              type="button"
-              aria-selected={tab === id}
-              onClick={() => go(id)}
-              className={`inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-[13px] font-semibold transition ${
-                tab === id ? "bg-brand text-white" : "text-ink hover:bg-softgrey"
-              }`}
-            >
-              <Icon size={15} /> {label}
-            </button>
-          ))}
-        </div>
+        <SlidingTabs
+          variant="pill"
+          ariaLabel="Alat analisa"
+          value={tab}
+          onChange={go}
+          options={TABS.map(({ id, label, icon: Icon }) => ({
+            value: id,
+            label: (
+              <>
+                <Icon size={15} /> {label}
+              </>
+            ),
+          }))}
+        />
       </div>
 
       <div className="mt-8">
