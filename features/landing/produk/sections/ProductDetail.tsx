@@ -11,19 +11,19 @@ export default function ProductDetail({ product: p, reverse }: Props) {
   return (
     <article
       id={p.slug}
-      className={`scroll-mt-24 rounded-3xl border border-black/5 p-5 shadow-xl lg:flex lg:min-h-[40rem] lg:items-center lg:p-6 ${
+      className={`scroll-mt-24 rounded-3xl border border-black/5 p-5 shadow-xl lg:flex lg:min-h-[38rem] lg:items-center lg:p-6 ${
         reverse ? "bg-softgrey" : "bg-white"
       }`}
     >
-      <div className="grid w-full items-center gap-8 lg:grid-cols-2">
-        <div className={reverse ? "lg:order-2" : ""}>
-          <div className="relative aspect-[4/3] overflow-hidden rounded-2xl bg-navy">
+      <div className="grid w-full gap-8 lg:grid-cols-2 lg:items-stretch">
+        <div className={`${reverse ? "lg:order-2" : ""} lg:h-full`}>
+          <div className="relative aspect-[16/10] overflow-hidden rounded-2xl bg-navy lg:aspect-auto lg:h-full lg:min-h-[26rem]">
             <Image
               src={p.image}
               alt={p.name}
               fill
               sizes="(min-width: 1024px) 45vw, 100vw"
-              className="object-cover"
+              className="object-cover object-center"
             />
             <div className="absolute inset-0 bg-linear-to-t from-navy/50 via-transparent to-transparent" />
             <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1 text-[11px] font-semibold text-ink backdrop-blur">
@@ -63,8 +63,8 @@ export default function ProductDetail({ product: p, reverse }: Props) {
             ))}
           </dl>
           <p className="mt-3 text-[11px] leading-4 text-muted">
-            Penyelesaian tunai (cash settlement). Komisi, biaya menginap, dan ketentuan
-            lengkap mengikuti dokumen kontrak resmi.
+            Penyelesaian tunai (cash settlement). Komisi, biaya menginap, dan
+            ketentuan lengkap mengikuti dokumen kontrak resmi.
           </p>
 
           <div className="mt-5 flex flex-wrap items-center gap-4">
