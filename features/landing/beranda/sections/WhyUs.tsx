@@ -12,7 +12,7 @@ export default function WhyUs() {
             title={
               <>
                 Mengapa Nasabah Memilih{" "}
-                <span className="text-brand">Trust by Equityworld</span>
+                <span className="text-brand">Equityworld Futures</span>
               </>
             }
           />
