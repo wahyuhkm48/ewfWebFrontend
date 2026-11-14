@@ -34,7 +34,7 @@ export const productDetails: ProductDetail[] = [
       { label: "Kode Kontrak", value: "XUL10" },
       { label: "Acuan Harga", value: "Emas Loco London" },
       { label: "Jenis Kontrak", value: "Gulir harian" },
-      { label: "Kurs", value: "Tetap, USD 1 = Rp 10.000" }, // verifikasi ke dokumen EWF
+      { label: "Kurs", value: "Tetap, USD 1 = Rp 10.000" },
     ],
   },
   {
@@ -93,5 +93,33 @@ export const productDetails: ProductDetail[] = [
       { label: "Nilai per Poin", value: "Rp 50.000" },
       { label: "Penyelesaian", value: "Tunai" },
     ],
+  },
+];
+
+export const heroBadges = [
+  "BAPPEBTI No. 549/BAPPEBTI/SI/IX/2004",
+  "Anggota BBJ (JFX) & KBI",
+];
+
+export const faqs = [
+  {
+    q: "Apa itu kontrak berjangka komoditas & indeks saham?",
+    a: "Kontrak berjangka adalah perjanjian jual beli suatu aset dengan harga yang disepakati hari ini untuk diselesaikan pada waktu tertentu. Di Equityworld Futures, transaksi dilakukan pada komoditas dan indeks saham.",
+  },
+  {
+    q: "Berapa modal minimal untuk memulai transaksi?",
+    a: "Modal awal mengikuti ketentuan margin pada spesifikasi kontrak masing-masing produk dan kebijakan pembukaan rekening. Hubungi Wakil Pialang Berjangka kami untuk informasi terbaru.",
+  },
+  {
+    q: "Apakah seluruh produk ini diawasi regulator resmi di Indonesia?",
+    a: "Ya. Seluruh aktivitas perdagangan berjangka berada di bawah pengawasan BAPPEBTI melalui bursa dan lembaga kliring yang terdaftar.",
+  },
+  {
+    q: "Bagaimana mekanisme keamanan dana nasabah terjamin?",
+    a: "Dana nasabah ditempatkan pada rekening terpisah (Segregated Account) di bank kustodian, terpisah dari dana operasional perusahaan.",
+  },
+  {
+    q: "Apakah pemula mendapatkan bimbingan dan akun simulasi?",
+    a: "Ya. Pemula dapat mencoba akun simulasi dengan data harga real-time serta mendapat pendampingan dari Wakil Pialang Berjangka berlisensi.",
   },
 ];
