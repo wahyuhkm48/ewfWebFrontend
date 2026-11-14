@@ -6,7 +6,6 @@ import ChartCard from "../components/ChartCard";
 import FilterBar from "../components/FilterBar";
 import HistoryTable from "../components/HistoryTable";
 import InstrumentSelect from "../components/InstrumentSelect";
-import StatCards from "../components/StatCards";
 import { exportUrl, getHistory, getLive } from "../api";
 import type { Filters, HistoryResponse, Instrument } from "../types";
 
@@ -118,18 +117,7 @@ export default function HistoryPanel({ instruments, active, onPivot }: Props) {
         />
       </div>
 
-      {/* 2. Kartu ringkasan */}
-      {!failed && (
-        <div className="mt-6">
-          <StatCards
-            summary={data?.summary ?? null}
-            slug={instrument?.slug ?? applied.slug}
-            loading={loading}
-          />
-        </div>
-      )}
-
-      {/* 3. Grafik: hanya interval dan tipe grafik */}
+      {/* 2. Grafik: hanya interval dan tipe grafik */}
       <div className="mt-6">
         <ChartCard
           short={selected?.short ?? "…"}
@@ -138,7 +126,7 @@ export default function HistoryPanel({ instruments, active, onPivot }: Props) {
         />
       </div>
 
-      {/* 4. Data historis: rentang tanggal, tabel, pagination */}
+      {/* 3. Data historis: rentang tanggal, tabel, pagination */}
       <div className="mt-8">
         {failed ? (
           <div role="alert" className="rounded-2xl border border-bear/30 bg-bear/5 p-6 text-center">

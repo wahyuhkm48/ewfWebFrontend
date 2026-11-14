@@ -13,7 +13,7 @@ export default function InstrumentSelect({ instruments, value, onChange }: Props
         htmlFor="instrumen"
         className="type-micro mb-1.5 block font-semibold uppercase tracking-[0.1em] text-muted"
       >
-        Instrumen
+        Produk
       </label>
       <select
         id="instrumen"
