@@ -1,13 +1,7 @@
-import Link from "next/link";
-import {
-  ChevronLeft,
-  ChevronRight,
-  ArrowRight,
-} from "lucide-react";
-
-import { pageRange } from "@/lib/pagination";
+import { ArrowRight } from "lucide-react";
+import Pagination from "../components/Pagination";
 import type { NewsItem, NewsResponse } from "../types";
-
+import { MAX_PAGES } from "../constants";
 import NewsImage from "../components/NewsImage";
 import CategoryTag from "../components/CategoryTag";
 import { formatDate } from "@/lib/format";
@@ -16,8 +10,6 @@ type Props = {
   items: NewsItem[];
   meta: NewsResponse["meta"];
 };
-
-const pageHref = (page: number) => (page <= 1 ? "/berita#semua-berita" : `/berita?page=${page}#semua-berita`);
 
 function NewsCard({ item }: { item: NewsItem }) {
   const Wrapper = item.url ? "a" : "div";
@@ -58,7 +50,8 @@ function NewsCard({ item }: { item: NewsItem }) {
 }
 
 export default function NewsGrid({ items, meta }: Props) {
-  const { current_page: current, last_page: last } = meta;
+  const current = meta.current_page;
+  const last = Math.min(meta.last_page, MAX_PAGES);
 
   return (
     <section id="semua-berita" className="mx-auto max-w-7xl scroll-mt-28 px-4 pt-16 sm:px-6">
@@ -84,56 +77,8 @@ export default function NewsGrid({ items, meta }: Props) {
       </div>
 
       {last > 1 && (
-        <div className="mt-10 flex flex-wrap items-center justify-between gap-4 border-t border-softgrey pt-6">
-          <nav aria-label="Halaman berita" className="flex flex-wrap items-center gap-1.5">
-            {current > 1 && (
-              <Link
-                href={pageHref(current - 1)}
-                aria-label="Halaman sebelumnya"
-                className="grid h-9 w-9 place-items-center rounded-full border border-softgrey bg-white text-ink transition hover:bg-softgrey"
-              >
-                <ChevronLeft size={15} />
-              </Link>
-            )}
-            {pageRange(current, last).map((p, i) =>
-              p === "gap" ? (
-                <span key={`gap-${i}`} className="px-1 text-muted">
-                  …
-                </span>
-              ) : (
-                <Link
-                  key={p}
-                  href={pageHref(p)}
-                  aria-current={p === current ? "page" : undefined}
-                  className={`grid h-9 min-w-9 place-items-center rounded-full px-2 text-xs font-semibold transition ${
-                    p === current
-                      ? "bg-brand text-white"
-                      : "border border-softgrey bg-white text-ink hover:bg-softgrey"
-                  }`}
-                >
-                  {p}
-                </Link>
-              ),
-            )}
-            {current < last && (
-              <Link
-                href={pageHref(current + 1)}
-                aria-label="Halaman berikutnya"
-                className="grid h-9 w-9 place-items-center rounded-full border border-softgrey bg-white text-ink transition hover:bg-softgrey"
-              >
-                <ChevronRight size={15} />
-              </Link>
-            )}
-          </nav>
-
-          {current < last && (
-            <Link
-              href={pageHref(current + 1)}
-              className="rounded-full border border-softgrey bg-white px-6 py-2.5 text-[11px] font-bold uppercase tracking-[0.1em] text-ink transition hover:bg-softgrey"
-            >
-              Muat Lebih Banyak Berita
-            </Link>
-          )}
+        <div className="mt-10 flex justify-end">
+          <Pagination current={current} last={last} />
         </div>
       )}
     </section>
