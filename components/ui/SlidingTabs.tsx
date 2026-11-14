@@ -1,6 +1,13 @@
 "use client";
 
-import { useCallback, useEffect, useLayoutEffect, useRef, type ReactNode } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from "react";
 
 type Option<T extends string> = { value: T; label: ReactNode };
 
@@ -43,34 +50,34 @@ export default function SlidingTabs<T extends string>({
   const rootRef = useRef<HTMLDivElement>(null);
   const indicatorRef = useRef<HTMLSpanElement>(null);
   const itemRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  const indexRef = useRef(index);
   const placedOnce = useRef(false);
+  const [ready, setReady] = useState(false);
 
-  // Pindahkan pill ke tombol aktif. instant = tanpa animasi (render pertama / resize).
-  const place = useCallback(
-    (instant: boolean) => {
-      const root = rootRef.current;
-      const indicator = indicatorRef.current;
-      const item = itemRefs.current[index];
-      if (!root || !indicator || !item) return;
+  // Fungsi ini sengaja stabil (tidak berubah antar render). Kalau berubah, ResizeObserver
+  // dibuat ulang tiap tab berganti dan callback awalnya membatalkan animasi.
+  const place = useCallback((instant: boolean) => {
+    const indicator = indicatorRef.current;
+    const item = itemRefs.current[indexRef.current];
+    if (!indicator || !item) return;
 
-      if (instant) indicator.style.transition = "none";
-      indicator.style.top = `${item.offsetTop}px`;
-      indicator.style.height = `${item.offsetHeight}px`;
-      indicator.style.width = `${item.offsetWidth}px`;
-      indicator.style.transform = `translateX(${item.offsetLeft}px)`;
-      if (instant) {
-        void indicator.offsetWidth; // paksa reflow agar posisi langsung diterapkan
-        indicator.style.transition = "";
-      }
-      root.dataset.ready = "true";
-    },
-    [index],
-  );
+    if (instant) indicator.style.transition = "none";
+    indicator.style.top = `${item.offsetTop}px`;
+    indicator.style.height = `${item.offsetHeight}px`;
+    indicator.style.width = `${item.offsetWidth}px`;
+    indicator.style.transform = `translateX(${item.offsetLeft}px)`;
+    if (instant) {
+      void indicator.offsetWidth; // paksa reflow agar posisi langsung diterapkan
+      indicator.style.transition = "";
+    }
+  }, []);
 
+  // Tab berganti: geser pill (render pertama langsung tanpa animasi).
   useLayoutEffect(() => {
+    indexRef.current = index;
     place(!placedOnce.current);
     placedOnce.current = true;
-  }, [place]);
+  }, [index, place]);
 
   // Ukuran berubah (resize layar, font selesai dimuat): pasang ulang tanpa animasi.
   useEffect(() => {
@@ -81,12 +88,18 @@ export default function SlidingTabs<T extends string>({
     return () => observer.disconnect();
   }, [place]);
 
+  // Sebelum pill terpasang, tombol aktif memakai latarnya sendiri agar teks putih tetap terbaca.
+  useEffect(() => {
+    const id = requestAnimationFrame(() => setReady(true));
+    return () => cancelAnimationFrame(id);
+  }, []);
+
   return (
     <div
       ref={rootRef}
       role={isTabs ? "tablist" : "group"}
       aria-label={ariaLabel}
-      className={`group/tabs relative inline-flex ${styles.root}`}
+      className={`relative inline-flex ${styles.root}`}
     >
       <span
         ref={indicatorRef}
@@ -109,7 +122,9 @@ export default function SlidingTabs<T extends string>({
             onClick={() => onChange(option.value)}
             className={`relative z-10 inline-flex items-center justify-center font-semibold transition-colors duration-300 ${styles.item} ${
               active
-                ? "bg-brand text-white group-data-[ready=true]/tabs:bg-transparent"
+                ? ready
+                  ? "text-white"
+                  : "bg-brand text-white"
                 : "text-ink hover:text-brand"
             }`}
           >
