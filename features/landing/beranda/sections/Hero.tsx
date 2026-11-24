@@ -62,8 +62,8 @@ export default function Hero() {
               <SpecularLink href="/tentang-kami" variant="primary" className="grow sm:grow-0">
                 Kenali Kami <ArrowRight size={16} />
               </SpecularLink>
-              <SpecularLink href="/produk" variant="ghost" className="grow sm:grow-0">
-                Lihat Produk <ArrowRight size={16} />
+              <SpecularLink href="/magang-karier" variant="ghost" className="grow sm:grow-0">
+                Magang & Karier <ArrowRight size={16} />
               </SpecularLink>
             </div>
           </div>
