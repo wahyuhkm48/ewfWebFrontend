@@ -90,7 +90,7 @@ export default function AuthForm({ mode, active, onSwitch, className = "" }: Pro
     try {
       const res = await (mode === "signup" ? register : login)({ email: value, password });
       saveSession(res);
-      router.push("/"); // tombol tetap "loading" sampai halaman berpindah
+      router.push("/dashboard"); // tombol tetap "loading" sampai halaman berpindah
     } catch (err) {
       setLoading(false);
       if (err instanceof ApiError) {

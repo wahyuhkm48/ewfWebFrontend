@@ -96,6 +96,15 @@ main {
   display: none;                /* Chrome, Safari, Edge */
 }
 
+/* Bilah navigasi dashboard mobile tetap dapat digulir tanpa menampilkan scrollbar. */
+.dashboard-nav-scroll {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.dashboard-nav-scroll::-webkit-scrollbar {
+  display: none;
+}
+
 /* ===== Footer: garis cahaya & animasi muncul bertahap ===== */
 @keyframes footer-line {
   from { background-position: 200% 0; }
