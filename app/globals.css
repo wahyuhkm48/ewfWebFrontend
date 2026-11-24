@@ -87,15 +87,6 @@ main {
   }
 }
 
-/* ===== ScrollStack di halaman Produk ===== */
-.product-stack {
-  scrollbar-width: none;        /* Firefox */
-  -ms-overflow-style: none;     /* Edge lama */
-}
-.product-stack::-webkit-scrollbar {
-  display: none;                /* Chrome, Safari, Edge */
-}
-
 /* Bilah navigasi dashboard mobile tetap dapat digulir tanpa menampilkan scrollbar. */
 .dashboard-nav-scroll {
   scrollbar-width: none;
