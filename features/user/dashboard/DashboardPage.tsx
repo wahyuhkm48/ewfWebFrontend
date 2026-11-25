@@ -1,41 +1,22 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import { useSyncExternalStore } from "react";
-import { useRouter } from "next/navigation";
 import {
   ArrowDownRight,
   ArrowRight,
   ArrowUpRight,
   Bell,
-  BriefcaseBusiness,
   CalendarDays,
   Check,
   ChevronRight,
-  CircleHelp,
   Clock3,
   FileText,
-  LayoutDashboard,
-  LogOut,
   MapPin,
-  Settings,
   ShieldCheck,
   Sparkles,
-  UserRound,
   UsersRound,
 } from "lucide-react";
-import type { AuthUser } from "@/features/auth/api";
-
-const navigation = [
-  { label: "Beranda", href: "#overview", icon: LayoutDashboard },
-  { label: "Lowongan", href: "#recommendations", icon: BriefcaseBusiness },
-  { label: "Lamaran Saya", href: "#applications", icon: FileText },
-  { label: "Profil & Dokumen", href: "#profile", icon: UserRound },
-  { label: "Jadwal", href: "#schedule", icon: CalendarDays },
-  { label: "Notifikasi", href: "#notifications", icon: Bell, badge: "2" },
-  { label: "Pengaturan Akun", href: "#settings", icon: Settings },
-];
+import { useUserName } from "./useUserName";
 
 const recommendations = [
   {
@@ -54,183 +35,12 @@ const recommendations = [
   },
 ];
 
-const FALLBACK_USER_NAME = "Rina Kusuma";
-
-function getStoredUserName() {
-  try {
-    const rawUser = window.localStorage.getItem("ewf_user");
-    if (!rawUser) return FALLBACK_USER_NAME;
-
-    const user = JSON.parse(rawUser) as AuthUser;
-    return typeof user.name === "string" && user.name.trim()
-      ? user.name.trim()
-      : FALLBACK_USER_NAME;
-  } catch (error) {
-    console.error("Tidak dapat membaca informasi pengguna tersimpan.", error);
-    return FALLBACK_USER_NAME;
-  }
-}
-
-function subscribeToUserName(onStoreChange: () => void) {
-  window.addEventListener("storage", onStoreChange);
-  return () => window.removeEventListener("storage", onStoreChange);
-}
-
 export default function DashboardPage() {
-  const router = useRouter();
-  const userName = useSyncExternalStore(
-    subscribeToUserName,
-    getStoredUserName,
-    () => FALLBACK_USER_NAME,
-  );
-
-  const logout = () => {
-    window.localStorage.removeItem("ewf_token");
-    window.localStorage.removeItem("ewf_user");
-    router.replace("/masuk");
-  };
+  const userName = useUserName();
 
   return (
-    <div className="min-h-dvh bg-[#f7f8fa] text-ink">
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-64 flex-col bg-[#101c2a] text-white lg:flex">
-        <Link href="/dashboard" className="flex items-center gap-3 px-6 py-6">
-          <Image
-            src="/images/logoewf.webp"
-            alt="Equityworld Futures"
-            width={42}
-            height={42}
-            className="h-10 w-10 object-contain"
-          />
-          <span>
-            <span className="block font-display text-sm font-extrabold tracking-wide">
-              EQUITYWORLD
-            </span>
-            <span className="block text-[10px] tracking-[0.2em] text-white/55">
-              FUTURES
-            </span>
-          </span>
-        </Link>
-
-        <Link
-          href="#recommendations"
-          className="mx-4 mb-5 flex items-center justify-center gap-2 rounded-xl bg-brand px-4 py-3 text-sm font-bold text-white transition hover:bg-brand/90"
-        >
-          <BriefcaseBusiness size={16} />
-          Temukan Lowongan
-        </Link>
-
-        <nav aria-label="Navigasi dashboard" className="space-y-1 px-3">
-          {navigation.map(({ label, href, icon: Icon, badge }, index) => (
-            <Link
-              key={label}
-              href={href}
-              aria-current={index === 0 ? "page" : undefined}
-              className={`flex items-center gap-3 rounded-lg px-3 py-2.5 text-[13px] font-medium transition ${
-                index === 0
-                  ? "bg-brand text-white"
-                  : "text-white/70 hover:bg-white/10 hover:text-white"
-              }`}
-            >
-              <Icon size={16} />
-              <span className="flex-1">{label}</span>
-              {badge && (
-                <span className="grid h-5 min-w-5 place-items-center rounded-full bg-red-500 px-1 text-[10px] font-bold text-white">
-                  {badge}
-                </span>
-              )}
-            </Link>
-          ))}
-        </nav>
-
-        <div className="mt-auto border-t border-white/10 px-4 py-4">
-          <a
-            href="mailto:info@ewfpro.com"
-            className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-[13px] font-medium text-white/70 transition hover:bg-white/10 hover:text-white"
-          >
-            <CircleHelp size={16} />
-            Bantuan
-          </a>
-          <button
-            type="button"
-            onClick={logout}
-            className="mt-1 flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-[13px] font-semibold text-red-300 transition hover:bg-red-400/10"
-          >
-            <LogOut size={16} />
-            Keluar
-          </button>
-        </div>
-      </aside>
-
-      <div className="lg:pl-64">
-        <header className="sticky top-0 z-20 border-b border-slate-200/80 bg-white/95 backdrop-blur">
-          <div className="mx-auto flex h-[4.25rem] max-w-[1440px] items-center justify-between px-4 sm:px-7 lg:px-10">
-            <Link href="/dashboard" className="flex items-center gap-2 lg:hidden">
-              <Image
-                src="/images/logoewf.webp"
-                alt="Equityworld Futures"
-                width={34}
-                height={34}
-                className="h-8 w-8 object-contain"
-              />
-              <span className="font-display text-sm font-extrabold">EWF Member</span>
-            </Link>
-            <p className="hidden text-sm font-medium text-slate-500 lg:block">
-              Member Area <span className="mx-2 text-slate-300">/</span>{" "}
-              <span className="text-ink">Dashboard</span>
-            </p>
-            <div className="ml-auto flex items-center gap-3 sm:gap-5">
-              <button
-                type="button"
-                aria-label="Notifikasi"
-                className="relative grid h-10 w-10 place-items-center rounded-full text-slate-500 transition hover:bg-slate-100 hover:text-ink"
-              >
-                <Bell size={19} />
-                <span className="absolute right-2 top-2 h-2 w-2 rounded-full bg-brand ring-2 ring-white" />
-              </button>
-              <span className="hidden h-8 w-px bg-slate-200 sm:block" />
-              <button
-                type="button"
-                onClick={logout}
-                className="flex items-center gap-2.5 text-left"
-                aria-label={`Keluar dari akun ${userName}`}
-              >
-                <span className="grid h-9 w-9 place-items-center rounded-full bg-[#ffe4d1] font-display text-sm font-extrabold text-brand">
-                  {userName
-                    .split(" ")
-                    .map((part) => part[0])
-                    .slice(0, 2)
-                    .join("")
-                    .toUpperCase()}
-                </span>
-                <span className="hidden sm:block">
-                  <span className="block text-xs font-bold text-ink">{userName}</span>
-                  <span className="block text-[10px] text-slate-500">Member</span>
-                </span>
-              </button>
-            </div>
-          </div>
-          <nav
-            aria-label="Navigasi dashboard"
-            className="dashboard-nav-scroll flex gap-1 overflow-x-auto border-t border-slate-100 px-3 py-2 lg:hidden"
-          >
-            {navigation.slice(0, 6).map(({ label, href, icon: Icon }, index) => (
-              <Link
-                key={label}
-                href={href}
-                aria-current={index === 0 ? "page" : undefined}
-                className={`flex shrink-0 items-center gap-2 rounded-lg px-3 py-2 text-xs font-semibold ${
-                  index === 0 ? "bg-brand/10 text-brand" : "text-slate-500 hover:bg-slate-100"
-                }`}
-              >
-                <Icon size={14} />
-                {label}
-              </Link>
-            ))}
-          </nav>
-        </header>
-
-        <main className="mx-auto max-w-[1440px] px-4 py-6 sm:px-7 sm:py-8 lg:px-10">
-          <section
+    <>
+      <section
             id="overview"
             className="scroll-mt-28 rounded-2xl border border-slate-100 bg-white px-5 py-5 shadow-sm sm:px-7 sm:py-6"
           >
@@ -497,8 +307,6 @@ export default function DashboardPage() {
               </section>
             </div>
           </div>
-        </main>
-      </div>
-    </div>
+    </>
   );
 }
