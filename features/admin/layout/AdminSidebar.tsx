@@ -6,6 +6,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { ChevronLeft, CircleHelp, Loader2, LogOut, Moon, Sun } from "lucide-react";
 import { adminNav, isActive } from "./nav";
+import { logout } from "@/features/auth/api";
 
 type Props = {
   /** Mode pendek (icon rail). Hanya berlaku di desktop. */
@@ -39,19 +40,10 @@ export default function AdminSidebar({
   const activeIndex = adminNav.findIndex((item) => isActive(pathname, item));
   const footStart = adminNav.length + 1;
 
-  const signOut = () => {
+  const signOut = async () => {
     if (leaving) return;
     setLeaving(true);
-
-    // Sementara: hapus sesi di browser saja (token di server belum dicabut).
-    // Nanti diganti memakai logout() dari features/auth/api.
-    try {
-        window.localStorage.removeItem("ewf_token");
-        window.localStorage.removeItem("ewf_user");
-    } catch {
-        // Penyimpanan diblokir; tidak ada yang perlu dihapus
-    }
-
+    await logout(); // cabut token di server, lalu hapus sesi di browser
     router.replace("/masuk");
   };
 

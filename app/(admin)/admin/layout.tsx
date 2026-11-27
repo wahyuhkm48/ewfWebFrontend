@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import AdminGuard from "@/features/admin/layout/AdminGuard";
 import AdminShell from "@/features/admin/layout/AdminShell";
 
 export const metadata: Metadata = {
@@ -7,5 +8,9 @@ export const metadata: Metadata = {
 };
 
 export default function AdminLayout({ children }: Readonly<{ children: React.ReactNode }>) {
-  return <AdminShell>{children}</AdminShell>;
+  return (
+    <AdminGuard>
+      <AdminShell>{children}</AdminShell>
+    </AdminGuard>
+  );
 }
