@@ -4,7 +4,7 @@ import { useId, useState, type CSSProperties, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Eye, EyeOff, Loader2 } from "lucide-react";
 import { ApiError } from "@/lib/api";
-import { login, register, saveSession } from "../api";
+import { homePathFor, login, register, saveSession } from "../api";
 import { AUTH_COPY, type AuthMode } from "../copy";
 
 type Props = {
@@ -90,7 +90,7 @@ export default function AuthForm({ mode, active, onSwitch, className = "" }: Pro
     try {
       const res = await (mode === "signup" ? register : login)({ email: value, password });
       saveSession(res);
-      router.push("/dashboard"); // tombol tetap "loading" sampai halaman berpindah
+      router.push(homePathFor(res.user.role)); // admin ke /admin, pengguna biasa ke /dashboard
     } catch (err) {
       setLoading(false);
       if (err instanceof ApiError) {
