@@ -422,7 +422,9 @@ const CircularGallery = ({
     dpr
   };
   const settingsRef = useRef(settings);
-  settingsRef.current = settings;
+  useEffect(() => {
+    settingsRef.current = settings;
+  });
 
   useEffect(() => {
     let alive = true;

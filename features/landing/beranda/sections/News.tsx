@@ -1,9 +1,9 @@
 import ExpandLink from "@/components/ui/ExpandLink";
 import RevealGroup from "@/components/ui/RevealGroup";
 import SectionHeading from "@/components/ui/SectionHeading";
-import { getNews } from "@/features/landing/berita/api";
-import NewsCard from "@/features/landing/berita/components/NewsCard";
-import type { NewsItem } from "@/features/landing/berita/types";
+import { getNews } from "@/features/shared/news/api";
+import NewsCard from "@/features/shared/news/components/NewsCard";
+import type { NewsItem } from "@/features/shared/news/types";
 import { stagger } from "@/lib/reveal";
 
 export default async function News() {

@@ -1,9 +1,9 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getLive } from "@/features/landing/analisa/api";
-import { priceText } from "@/features/landing/analisa/constants";
-import type { LiveResponse } from "@/features/landing/analisa/types";
+import { getLive } from "@/features/shared/market/api";
+import { priceText } from "@/features/shared/market/format";
+import type { LiveResponse } from "@/features/shared/market/types";
 import { marketClocks, marketTickers } from "@/features/landing/beranda/data";
 import { formatNumber, formatPercent } from "@/lib/format";
 import { delay } from "@/lib/reveal";

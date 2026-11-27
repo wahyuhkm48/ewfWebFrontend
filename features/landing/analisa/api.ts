@@ -2,10 +2,8 @@ import { api, apiUrl } from "@/lib/api";
 import type {
   Filters,
   HistoryResponse,
-  Instrument,
-  LiveResponse,
   PivotResponse,
-} from "./types";
+} from "@/features/shared/market/types";
 
 function historyParams(filters: Filters, page?: number) {
   const params = new URLSearchParams();
@@ -16,15 +14,6 @@ function historyParams(filters: Filters, page?: number) {
     params.set("per_page", "10");
   }
   return params.toString();
-}
-
-export async function getInstruments(signal?: AbortSignal) {
-  const res = await api<{ data: Instrument[] }>("/market/instruments", { signal });
-  return res.data;
-}
-
-export function getLive(signal?: AbortSignal) {
-  return api<LiveResponse>("/market/live", { signal, cache: "no-store" });
 }
 
 export function getHistory(filters: Filters, page: number, signal?: AbortSignal) {

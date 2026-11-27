@@ -1,5 +1,5 @@
 import { api } from "@/lib/api";
-import type { PivotResponse } from "@/features/landing/analisa/types";
+import type { PivotResponse } from "@/features/shared/market/types";
 
 export const PIVOT_SLUGS = ["gold", "oil", "hangseng", "nikkei"] as const;
 

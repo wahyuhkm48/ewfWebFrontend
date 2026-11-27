@@ -6,8 +6,9 @@ import ChartCard from "../components/ChartCard";
 import FilterBar from "../components/FilterBar";
 import HistoryTable from "../components/HistoryTable";
 import InstrumentTabs from "../components/InstrumentTabs";
-import { exportUrl, getHistory, getLive } from "../api";
-import type { Filters, HistoryResponse, Instrument } from "../types";
+import { exportUrl, getHistory } from "../api";
+import { getLive } from "@/features/shared/market/api";
+import type { Filters, HistoryResponse, Instrument } from "../../../shared/market/types";
 import RevealGroup from "@/components/ui/RevealGroup";
 import { delay } from "@/lib/reveal";
 

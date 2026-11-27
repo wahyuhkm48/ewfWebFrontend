@@ -1,5 +1,5 @@
 import { Download, Filter, RotateCcw } from "lucide-react";
-import type { Filters } from "../types";
+import type { Filters } from "../../../shared/market/types";
 import DatePicker from "@/components/ui/DatePicker";
 
 type Props = {
@@ -15,8 +15,6 @@ type Props = {
 };
 
 const fieldLabel = "type-micro mb-1.5 block font-semibold uppercase tracking-[0.1em] text-muted";
-const input =
-  "w-full rounded-xl border border-softgrey bg-white px-3 py-2.5 text-[13px] font-medium text-ink outline-none transition focus:border-brand";
 const disabledStyle = "disabled:cursor-not-allowed disabled:opacity-50";
 
 export default function FilterBar({

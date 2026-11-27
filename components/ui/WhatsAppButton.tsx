@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import Image from "next/image";
-import { WHATSAPP_URL } from "@/features/landing/shared/data/contact";
+import { WHATSAPP_URL } from "@/lib/contact";
 
 type Props = {
   children?: ReactNode;

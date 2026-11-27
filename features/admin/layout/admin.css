@@ -1,0 +1,541 @@
+/* ==========================================================================
+   Admin shell: sidebar FLOATING (ngambang) dengan tab aktif melengkung.
+   Mode pendek (icon rail) <-> mode lebar.
+   Semua ukuran memakai px agar geometri lengkungan tetap presisi
+   (html font-size situs ini mengecil/membesar mengikuti lebar layar).
+   ========================================================================== */
+
+.admin-shell {
+  --a-gap: 14px; /* jarak sidebar dari tepi layar & dari konten */
+  --a-panel: 256px; /* lebar kartu sidebar (mode lebar) */
+  --a-rail: 76px; /* lebar kartu sidebar (mode pendek) */
+  --a-radius: 28px;
+  --a-item-h: 48px;
+  --a-item-gap: 6px;
+  --a-pitch: calc(var(--a-item-h) + var(--a-item-gap));
+  --a-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --a-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+
+  /* Mode terang: kartu navy melayang di atas kanvas off-white */
+  --a-side: #0e1a2b;
+  --a-side-top: #172a42;
+  --a-side-ink: rgba(255, 255, 255, 0.62);
+  --a-side-ink-hi: #ffffff;
+  --a-side-hover: rgba(255, 255, 255, 0.08);
+  --a-side-line: rgba(255, 255, 255, 0.07);
+  --a-shadow: 0 30px 50px -18px rgba(11, 27, 43, 0.55), 0 10px 22px -10px rgba(11, 27, 43, 0.38);
+  --a-canvas: #eff2f7;
+  --a-surface: #ffffff;
+  --a-ink: #0f172a;
+  --a-muted: #64748b;
+  --a-line: #e0e5ee;
+  --a-brand: #ec7013;
+  --a-brand-soft: rgba(236, 112, 19, 0.14);
+
+  display: flex;
+  min-height: 100dvh;
+  background: var(--a-canvas);
+  color: var(--a-ink);
+  transition: background-color 0.35s var(--a-ease), color 0.35s var(--a-ease);
+}
+
+.admin-shell[data-theme="dark"] {
+  --a-side: #060d16;
+  --a-side-top: #0d1a2a;
+  --a-side-line: rgba(255, 255, 255, 0.08);
+  --a-shadow: 0 30px 56px -18px rgba(0, 0, 0, 0.8), 0 10px 22px -10px rgba(0, 0, 0, 0.65);
+  --a-canvas: #111d2c;
+  --a-surface: #182739;
+  --a-ink: #e8edf4;
+  --a-muted: #8fa0b5;
+  --a-line: rgba(255, 255, 255, 0.08);
+  --a-brand-soft: rgba(236, 112, 19, 0.2);
+}
+
+/* ---------- Sidebar (wadah transparan, kartunya ada di .admin-panel) ---------- */
+
+.admin-side {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  box-sizing: border-box;
+  width: calc(var(--a-panel) + var(--a-gap) * 2);
+  height: 100dvh;
+  padding: var(--a-gap);
+  transition:
+    width 0.38s var(--a-ease),
+    transform 0.38s var(--a-ease);
+}
+
+/* Kartu yang "mengambang": sudut besar, cincin tipis, cahaya oranye samar, bayangan berlapis */
+.admin-panel {
+  position: absolute;
+  inset: var(--a-gap);
+  z-index: 0;
+  border-radius: var(--a-radius);
+  background:
+    radial-gradient(120% 52% at 0% 0%, rgba(236, 112, 19, 0.17), transparent 62%),
+    linear-gradient(180deg, var(--a-side-top), var(--a-side));
+  box-shadow: inset 0 0 0 1px var(--a-side-line), var(--a-shadow);
+  animation: admin-float-in 0.75s var(--a-ease) backwards;
+  transition: box-shadow 0.35s var(--a-ease);
+}
+
+/* Logo */
+.admin-brand {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 72px;
+  padding-left: 18px;
+  flex-shrink: 0;
+  color: #fff;
+  text-decoration: none;
+}
+.admin-brand img {
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+.admin-brand-text {
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  transition: opacity 0.25s var(--a-ease), transform 0.35s var(--a-ease);
+  transition-delay: 0.1s;
+}
+.admin-brand-text b {
+  display: block;
+  font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+.admin-brand-text i {
+  display: block;
+  margin-top: 2px;
+  font-style: normal;
+  font-size: 10px;
+  letter-spacing: 0.22em;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Tombol ciutkan/perluas: menempel di tepi kartu */
+.admin-handle {
+  position: absolute;
+  top: calc(var(--a-gap) + 26px);
+  right: 0;
+  z-index: 5;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 999px;
+  border: 1px solid var(--a-line);
+  background: var(--a-surface);
+  color: var(--a-muted);
+  box-shadow: 0 4px 12px rgba(15, 23, 42, 0.18);
+  cursor: pointer;
+  transition:
+    transform 0.3s var(--a-spring),
+    color 0.2s,
+    border-color 0.2s,
+    background-color 0.35s var(--a-ease);
+}
+.admin-handle:hover {
+  color: var(--a-brand);
+  border-color: var(--a-brand);
+  transform: scale(1.12);
+}
+.admin-handle svg {
+  transition: transform 0.4s var(--a-ease);
+}
+
+/* ---------- Navigasi + tab aktif ---------- */
+
+.admin-nav {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--a-item-gap);
+  margin-top: 24px;
+}
+
+/* Tab aktif: pil oranye (warna brand) yang meluncur antar item. */
+.admin-indicator {
+  position: absolute;
+  z-index: 0;
+  top: 0;
+  left: 12px;
+  right: 12px;
+  height: var(--a-item-h);
+  border-radius: 18px;
+  background: linear-gradient(135deg, #f7993f 0%, var(--a-brand) 55%, #d65f08 100%);
+  box-shadow:
+    0 12px 24px -10px rgba(236, 112, 19, 0.90),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transform: translateY(calc(var(--a-active, 0) * var(--a-pitch)));
+  transition:
+    transform 0.55s var(--a-spring),
+    opacity 0.25s var(--a-ease);
+}
+.admin-indicator[data-hidden="true"] {
+  opacity: 0;
+}
+
+/* ---------- Item (link & tombol) ---------- */
+
+.admin-item {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: var(--a-item-h);
+  margin: 0 12px;
+  padding: 0 0 0 16px;
+  border: 0;
+  border-radius: 18px;
+  background: transparent;
+  color: var(--a-side-ink);
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  text-align: left;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: color 0.2s, background-color 0.2s;
+  animation: admin-in 0.55s var(--a-ease) backwards;
+  animation-delay: calc(var(--i, 0) * 55ms + 160ms);
+}
+.admin-item:hover {
+  background: var(--a-side-hover);
+  color: var(--a-side-ink-hi);
+}
+.admin-item:focus-visible,
+.admin-handle:focus-visible,
+.admin-menu-btn:focus-visible {
+  outline: 2px solid var(--a-brand);
+  outline-offset: 2px;
+}
+
+.admin-item[data-active="true"] {
+  background: transparent;
+  color: #fff; /* teks aktif berada di atas pil oranye */
+}
+
+.admin-ico {
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 36px;
+  height: 36px;
+  margin-left: -8px;
+  border-radius: 14px;
+  transition:
+    transform 0.35s var(--a-spring),
+    background-color 0.3s,
+    color 0.3s;
+}
+.admin-item:not([data-active="true"]):hover .admin-ico {
+  transform: translateX(2px) scale(1.08);
+}
+.admin-item[data-active="true"] .admin-ico {
+  color: #fff;
+  animation: admin-pop 0.55s var(--a-spring);
+}
+.admin-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  padding-right: 14px;
+  transition: opacity 0.25s var(--a-ease), transform 0.35s var(--a-ease);
+  transition-delay: 0.1s;
+}
+
+/* Item bawah: Bantuan, Mode Tampilan, Keluar */
+.admin-foot {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--a-item-gap);
+  margin: auto 12px 0;
+  padding: 14px 0 16px;
+  border-top: 1px solid var(--a-side-line);
+}
+.admin-foot .admin-item {
+  margin: 0;
+}
+.admin-item[data-tone="danger"]:hover {
+  background: rgba(248, 113, 113, 0.13);
+  color: #fca5a5;
+}
+.admin-spin {
+  animation: admin-spin 0.8s linear infinite;
+}
+
+/* Ikon matahari/bulan saling berganti */
+.admin-ico-swap > svg {
+  grid-area: 1 / 1;
+  transition: transform 0.55s var(--a-spring), opacity 0.3s var(--a-ease);
+}
+.admin-ico-swap .moon {
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.4);
+}
+.admin-shell[data-theme="dark"] .admin-ico-swap .sun {
+  opacity: 0;
+  transform: rotate(90deg) scale(0.4);
+}
+.admin-shell[data-theme="dark"] .admin-ico-swap .moon {
+  opacity: 1;
+  transform: none;
+}
+
+/* Saklar kecil */
+.admin-switch {
+  position: relative;
+  flex-shrink: 0;
+  width: 38px;
+  height: 22px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  transition: background-color 0.3s var(--a-ease);
+}
+.admin-switch::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  transition: transform 0.4s var(--a-spring);
+}
+.admin-shell[data-theme="dark"] .admin-switch {
+  background: var(--a-brand);
+}
+.admin-shell[data-theme="dark"] .admin-switch::after {
+  transform: translateX(16px);
+}
+
+/* Tooltip (hanya tampil saat sidebar pendek) */
+.admin-tip {
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 26px);
+  z-index: 60;
+  padding: 7px 11px;
+  border-radius: 10px;
+  background: var(--a-ink);
+  color: var(--a-canvas);
+  font-size: 12.5px;
+  font-weight: 600;
+  white-space: nowrap;
+  box-shadow: 0 8px 24px rgba(7, 15, 24, 0.3);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-6px, -50%) scale(0.96);
+  transition: opacity 0.18s var(--a-ease), transform 0.25s var(--a-spring);
+}
+
+/* ---------- Area utama ---------- */
+
+.admin-main {
+  flex: 1;
+  min-width: 0;
+  background: var(--a-canvas);
+  transition: background-color 0.35s var(--a-ease);
+}
+.admin-content {
+  padding: 28px clamp(16px, 3vw, 40px) 48px;
+}
+
+.admin-topbar,
+.admin-overlay {
+  display: none;
+}
+
+/* ---------- Placeholder halaman ---------- */
+
+.admin-page h1 {
+  margin: 6px 0 0;
+  font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(22px, 2.2vw, 30px);
+  font-weight: 800;
+  letter-spacing: -0.01em;
+  color: var(--a-ink);
+}
+.admin-eyebrow {
+  margin: 0;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--a-brand);
+}
+.admin-lead {
+  margin: 8px 0 0;
+  font-size: 14px;
+  color: var(--a-muted);
+}
+.admin-empty {
+  margin-top: 24px;
+  padding: 48px 24px;
+  border: 1px dashed var(--a-line);
+  border-radius: 20px;
+  background: var(--a-surface);
+  text-align: center;
+  font-size: 14px;
+  color: var(--a-muted);
+  transition: background-color 0.35s var(--a-ease);
+}
+
+/* ---------- Desktop: mode pendek (icon rail) ---------- */
+
+@media (min-width: 1024px) {
+  .admin-side[data-collapsed="true"] {
+    width: calc(var(--a-rail) + var(--a-gap) * 2);
+  }
+  .admin-side[data-collapsed="true"] .admin-handle svg {
+    transform: rotate(180deg);
+  }
+  .admin-side[data-collapsed="true"] .admin-label,
+  .admin-side[data-collapsed="true"] .admin-brand-text {
+    opacity: 0;
+    transform: translateX(-10px);
+    pointer-events: none;
+    transition-delay: 0s;
+  }
+  .admin-side[data-collapsed="true"] .admin-item:hover .admin-tip,
+  .admin-side[data-collapsed="true"] .admin-item:focus-visible .admin-tip {
+    opacity: 1;
+    transform: translate(0, -50%) scale(1);
+  }
+}
+
+/* ---------- Mobile / tablet: drawer melayang ---------- */
+
+@media (max-width: 1023px) {
+  .admin-handle {
+    display: none;
+  }
+  .admin-side {
+    position: fixed;
+    inset: 0 auto 0 0;
+    transform: translateX(-100%);
+    visibility: hidden;
+    transition:
+      transform 0.38s var(--a-ease),
+      visibility 0s linear 0.38s;
+  }
+  .admin-side[data-open="true"] {
+    transform: none;
+    visibility: visible;
+    transition-delay: 0s;
+  }
+
+  .admin-overlay {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 30;
+    background: rgba(7, 15, 24, 0.55);
+    backdrop-filter: blur(3px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s var(--a-ease);
+  }
+  .admin-overlay[data-open="true"] {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .admin-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    height: 56px;
+    padding: 0 16px;
+    border-bottom: 1px solid var(--a-line);
+    background: var(--a-surface);
+    font-family: var(--font-jakarta), ui-sans-serif, system-ui, sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    transition: background-color 0.35s var(--a-ease);
+  }
+  .admin-menu-btn {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    margin-left: -8px;
+    border: 0;
+    border-radius: 12px;
+    background: transparent;
+    color: var(--a-ink);
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  .admin-menu-btn:hover {
+    background: var(--a-brand-soft);
+  }
+}
+
+/* ---------- Animasi ---------- */
+
+@keyframes admin-float-in {
+  from {
+    opacity: 0;
+    transform: translateX(-30px) scale(0.97);
+  }
+}
+@keyframes admin-in {
+  from {
+    opacity: 0;
+    transform: translateX(-14px);
+  }
+}
+@keyframes admin-pop {
+  0% {
+    transform: scale(0.7) rotate(-8deg);
+  }
+  60% {
+    transform: scale(1.14) rotate(3deg);
+  }
+  100% {
+    transform: none;
+  }
+}
+@keyframes admin-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .admin-shell *,
+  .admin-shell *::before,
+  .admin-shell *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
+  }
+}

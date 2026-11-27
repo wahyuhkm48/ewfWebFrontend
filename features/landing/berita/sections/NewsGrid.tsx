@@ -2,10 +2,10 @@ import { ArrowRight } from "lucide-react";
 import Link from "next/link";
 import Pagination from "../components/Pagination";
 import RevealGroup from "@/components/ui/RevealGroup";
-import type { NewsItem, NewsResponse } from "../types";
+import type { NewsItem, NewsResponse } from "../../../shared/news/types";
 import { MAX_PAGES, SORT_OPTIONS, newsHref, type NewsSort } from "../constants";
-import NewsImage from "../components/NewsImage";
-import CategoryTag from "../components/CategoryTag";
+import NewsImage from "../../../shared/news/components/NewsImage";
+import CategoryTag from "../../../shared/news/components/CategoryTag";
 import { formatDate } from "@/lib/format";
 import { delay } from "@/lib/reveal";
 

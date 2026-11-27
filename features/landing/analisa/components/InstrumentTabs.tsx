@@ -1,5 +1,5 @@
 import SlidingTabs from "@/components/ui/SlidingTabs";
-import type { Instrument } from "../types";
+import type { Instrument } from "../../../shared/market/types";
 
 type Props = {
   instruments: Instrument[];

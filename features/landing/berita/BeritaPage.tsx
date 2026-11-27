@@ -1,7 +1,7 @@
 import Link from "next/link";
-import { getNews, getOldestNews } from "./api";
+import { getNews, getOldestNews } from "../../shared/news/api";
 import type { NewsSort } from "./constants";
-import type { NewsResponse } from "./types";
+import type { NewsResponse } from "../../shared/news/types";
 import Hero from "./sections/Hero";
 import FeaturedNews from "./sections/FeaturedNews";
 import NewsGrid from "./sections/NewsGrid";

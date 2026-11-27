@@ -2,7 +2,7 @@
 
 import { useState, type CSSProperties } from "react";
 import { formatDate, formatNumber } from "@/lib/format";
-import type { PivotLevels } from "@/features/landing/analisa/types";
+import type { PivotLevels } from "@/features/shared/market/types";
 import { PIVOT_SLUGS, type LatestPivots } from "../api";
 
 const TABS: Record<(typeof PIVOT_SLUGS)[number], string> = {

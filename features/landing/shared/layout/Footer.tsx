@@ -1,10 +1,10 @@
-import type { CSSProperties } from "react";
 import Link from "next/link";
 import { Mail, MessageCircle, Phone, ShieldAlert } from "lucide-react";
 import BackToTop from "@/components/ui/BackToTop";
 import RevealGroup from "@/components/ui/RevealGroup";
-import { WHATSAPP_URL } from "@/features/landing/shared/data/contact";
+import { WHATSAPP_URL } from "@/lib/contact";
 import { navLinks } from "@/features/landing/shared/data/nav";
+import { delay } from "@/lib/reveal";
 
 const legal = [
   "Izin BAPPEBTI: 549/BAPPEBTI/SI/IX/2004",
@@ -14,8 +14,6 @@ const legal = [
   "Kebijakan Privasi",
   "Syarat & Ketentuan",
 ];
-
-const delay = (ms: number) => ({ "--reveal-delay": `${ms}ms` }) as CSSProperties;
 
 // Garis bawah oranye yang menyapu dari kiri saat di-hover.
 const navLink =

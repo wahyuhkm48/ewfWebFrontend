@@ -1,6 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import { formatDate, formatNumber, formatPercent } from "@/lib/format";
-import type { HistoryRow, PageMeta } from "../types";
+import type { HistoryRow, PageMeta } from "../../../shared/market/types";
 import HistoryPagination from "./HistoryPagination";
 
 type Props = {

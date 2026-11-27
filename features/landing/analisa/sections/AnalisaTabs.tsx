@@ -3,8 +3,8 @@
 import { useEffect, useState } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Calculator, Table } from "lucide-react";
-import { getInstruments } from "../api";
-import type { Instrument } from "../types";
+import { getInstruments } from "@/features/shared/market/api";
+import type { Instrument } from "../../../shared/market/types";
 import HistoryPanel from "./HistoryPanel";
 import PivotPanel, { type PivotPreset } from "./PivotPanel";
 import SlidingTabs from "@/components/ui/SlidingTabs";

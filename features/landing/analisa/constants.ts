@@ -9,13 +9,3 @@ export const CHART_INTERVALS: { value: ChartInterval; label: string; name: strin
   { value: "W", label: "Mingguan", name: "Mingguan" },
   { value: "M", label: "Bulanan", name: "Bulanan" },
 ];
-
-/** Awalan mata uang untuk harga; indeks saham ditampilkan sebagai poin. */
-export const PRICE_PREFIX: Record<string, string> = {
-  gold: "$",
-  oil: "$",
-};
-
-export function priceText(slug: string, formatted: string) {
-  return `${PRICE_PREFIX[slug] ?? ""}${formatted}`;
-}

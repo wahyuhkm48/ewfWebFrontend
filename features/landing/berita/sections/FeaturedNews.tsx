@@ -1,9 +1,9 @@
 import { formatDate } from "@/lib/format";
 import { delay } from "@/lib/reveal";
 import RevealGroup from "@/components/ui/RevealGroup";
-import CategoryTag from "../components/CategoryTag";
-import NewsImage from "../components/NewsImage";
-import type { NewsItem } from "../types";
+import CategoryTag from "../../../shared/news/components/CategoryTag";
+import NewsImage from "../../../shared/news/components/NewsImage";
+import type { NewsItem } from "../../../shared/news/types";
 import type { NewsSort } from "../constants";
 
 const COPY: Record<NewsSort, { title: string; desc: string }> = {
