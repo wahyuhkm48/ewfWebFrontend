@@ -5,8 +5,15 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, Save } from "lucide-react";
+import DatePicker from "@/components/ui/DatePicker";
 import { createJob, LowonganError, updateJob } from "./api";
 import type { JobInput, JobPosting, JobType } from "./types";
+
+function localToday() {
+  const t = new Date();
+  const p = (n: number) => String(n).padStart(2, "0");
+  return `${t.getFullYear()}-${p(t.getMonth() + 1)}-${p(t.getDate())}`;
+}
 
 const EMPTY: JobInput = {
   title: "",
@@ -37,6 +44,7 @@ export default function LowonganForm({ job }: Readonly<{ job?: JobPosting }>) {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [formError, setFormError] = useState("");
   const [saving, setSaving] = useState(false);
+  const [minDate] = useState(localToday);
 
   const set = <K extends keyof JobInput>(key: K, value: JobInput[K]) =>
     setForm((f) => ({ ...f, [key]: value }));
@@ -163,13 +171,16 @@ export default function LowonganForm({ job }: Readonly<{ job?: JobPosting }>) {
 
             <div className="lw-field" {...field("deadline")}>
               <label htmlFor="deadline">Deadline</label>
-              <input
-                id="deadline"
-                type="date"
-                className="lw-input"
-                value={form.deadline}
-                onChange={(e) => set("deadline", e.target.value)}
-              />
+              <div className="lw-ui">
+                <DatePicker
+                  id="deadline"
+                  ariaLabel="Deadline lowongan"
+                  placeholder="Pilih tanggal deadline"
+                  value={form.deadline}
+                  min={editing ? undefined : minDate}
+                  onChange={(v) => set("deadline", v)}
+                />
+              </div>
               <small>Lowongan dibuka sampai tanggal ini.</small>
               {errors.deadline && <span className="err">{errors.deadline}</span>}
             </div>

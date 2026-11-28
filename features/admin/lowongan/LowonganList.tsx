@@ -4,10 +4,23 @@ import "./lowongan.css";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Pencil, Plus, Search, Trash2 } from "lucide-react";
+import Select from "@/components/ui/Select";
 import { formatDate } from "@/lib/format";
 import { deleteJob, fetchJobs, setJobStatus } from "./api";
 import StatCards from "./StatCards";
 import type { JobListResponse, JobPosting, ListParams } from "./types";
+
+const TYPE_OPTIONS: { value: ListParams["type"]; label: string }[] = [
+  { value: "", label: "Semua tipe" },
+  { value: "kerja", label: "Kerja" },
+  { value: "magang", label: "Magang" },
+];
+
+const STATUS_OPTIONS: { value: ListParams["status"]; label: string }[] = [
+  { value: "", label: "Semua status" },
+  { value: "aktif", label: "Aktif" },
+  { value: "nonaktif", label: "Nonaktif" },
+];
 
 type Result = { key: string; data?: JobListResponse; error?: string };
 
@@ -114,30 +127,28 @@ export default function LowonganList() {
               onChange={(e) => setQInput(e.target.value)}
             />
           </div>
-          <select
-            className="lw-select"
-            value={type}
-            onChange={(e) => {
-              setType(e.target.value as ListParams["type"]);
-              setPage(1);
-            }}
-          >
-            <option value="">Semua tipe</option>
-            <option value="kerja">Kerja</option>
-            <option value="magang">Magang</option>
-          </select>
-          <select
-            className="lw-select"
-            value={status}
-            onChange={(e) => {
-              setStatus(e.target.value as ListParams["status"]);
-              setPage(1);
-            }}
-          >
-            <option value="">Semua status</option>
-            <option value="aktif">Aktif</option>
-            <option value="nonaktif">Nonaktif</option>
-          </select>
+                    <div className="lw-ui lw-filter">
+            <Select
+              ariaLabel="Filter tipe"
+              value={type}
+              options={TYPE_OPTIONS}
+              onChange={(v) => {
+                setType(v);
+                setPage(1);
+              }}
+            />
+          </div>
+          <div className="lw-ui lw-filter">
+            <Select
+              ariaLabel="Filter status"
+              value={status}
+              options={STATUS_OPTIONS}
+              onChange={(v) => {
+                setStatus(v);
+                setPage(1);
+              }}
+            />
+          </div>
         </div>
 
         {(result?.error || actionError) && <div className="lw-error">{result?.error || actionError}</div>}

@@ -106,14 +106,14 @@
   animation: lw-up 0.6s var(--a-ease) backwards 0.35s;
 }
 .lw-toolbar { display: flex; flex-wrap: wrap; gap: 12px; padding: 18px 20px; border-bottom: 1px solid var(--a-line); }
-.lw-input, .lw-select, .lw-textarea {
+.lw-input, .lw-textarea {
   height: 42px; padding: 0 14px; border: 0; border-radius: 12px;
   background: var(--a-canvas); color: var(--a-ink); font: inherit; font-size: 14px;
   box-shadow: inset 0 0 0 1px var(--a-line);
   transition: box-shadow 0.2s var(--a-ease);
 }
 .lw-textarea { height: auto; min-height: 120px; padding: 12px 14px; resize: vertical; width: 100%; }
-.lw-input:focus, .lw-select:focus, .lw-textarea:focus { outline: none; box-shadow: inset 0 0 0 2px var(--a-brand); }
+.lw-input:focus, .lw-textarea:focus { outline: none; box-shadow: inset 0 0 0 2px var(--a-brand); }
 .lw-search { flex: 1 1 240px; position: relative; }
 .lw-search svg { position: absolute; left: 13px; top: 50%; transform: translateY(-50%); color: var(--a-muted); }
 .lw-search .lw-input { width: 100%; padding-left: 40px; }
@@ -201,6 +201,26 @@
 .lw-seg button[aria-pressed="true"] { color: #fff; }
 
 .lw-foot { display: flex; justify-content: flex-end; gap: 10px; }
+
+/* ===== Pakai ulang komponen UI landing (Select & DatePicker) di area admin ===== */
+.lw-ui {
+  --color-white: var(--a-surface);
+  --color-ink: var(--a-ink);
+  --color-muted: var(--a-muted);
+  --color-softgrey: var(--a-line);
+}
+
+/* lebar dropdown filter di toolbar */
+.lw-filter { width: 170px; }
+@media (max-width: 640px) {
+  .lw-filter { flex: 1 1 140px; width: auto; }
+}
+
+/* state error pada kalender */
+.lw-field[data-invalid="true"] .lw-ui button[aria-haspopup] {
+  border-color: #dc2626;
+  box-shadow: 0 0 0 4px rgba(220, 38, 38, 0.12);
+}
 
 @keyframes lw-up { from { opacity: 0; transform: translateY(18px); } }
 @keyframes lw-row { from { opacity: 0; transform: translateX(-12px); } }
