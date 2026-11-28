@@ -8,11 +8,12 @@ type Props = {
   current: number;
   last: number;
   onChange: (page: number) => void;
+  label?: string;
 };
 
 const BAR_WIDTH = 20; // sama dengan kelas w-5 pada garis penanda
 
-export default function HistoryPagination({ current, last, onChange }: Props) {
+export default function HistoryPagination({ current, last, onChange, label = "Halaman data historis" }: Props) {
   // Halaman tujuan sementara: garis langsung bergeser saat diklik,
   // tanpa menunggu data halaman baru selesai dimuat.
   const [prevCurrent, setPrevCurrent] = useState(current);

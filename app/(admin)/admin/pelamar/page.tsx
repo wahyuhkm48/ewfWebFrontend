@@ -1,7 +1,5 @@
-import PagePlaceholder from "@/features/admin/layout/PagePlaceholder";
+import PelamarList from "@/features/admin/pelamar/PelamarList";
 
 export default function Page() {
-  return (
-    <PagePlaceholder title="Pelamar" description="Tinjau dan proses lamaran yang masuk." />
-  );
+  return <PelamarList />;
 }
