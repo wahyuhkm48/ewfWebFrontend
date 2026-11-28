@@ -1,0 +1,67 @@
+/* ===== Pelamar (melengkapi lowongan.css) ===== */
+.pl-stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 18px; margin-bottom: 24px; }
+@media (max-width: 1400px) { .pl-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) { .pl-stats { grid-template-columns: 1fr; } }
+
+/* mini bar 7 hari */
+.pl-spark { display: flex; align-items: flex-end; gap: 6px; height: 46px; margin-top: 16px; }
+.pl-spark span {
+  flex: 1; border-radius: 6px 6px 3px 3px; background: var(--a-brand-soft);
+  transform-origin: bottom; animation: pl-rise 0.7s var(--a-ease) backwards;
+  transition: background-color 0.2s var(--a-ease);
+}
+.pl-spark span:last-child { background: var(--a-brand); }
+.pl-spark span:hover { background: var(--a-brand); }
+
+/* toolbar filter */
+.pl-toolbar { display: grid; gap: 12px; padding: 18px 20px; border-bottom: 1px solid var(--a-line); }
+.pl-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+.pl-w-md { width: 210px; }
+.pl-w-sm { width: 170px; }
+.pl-sep { color: var(--a-muted); font-size: 13px; }
+.pl-label { color: var(--a-muted); font-size: 13px; font-weight: 600; }
+@media (max-width: 640px) {
+  .pl-w-md, .pl-w-sm { flex: 1 1 150px; width: auto; }
+}
+.lw-btn.sm { height: 40px; padding: 0 14px; border-radius: 12px; font-size: 13px; box-shadow: none; }
+.lw-btn.sm.ghost { box-shadow: inset 0 0 0 1px var(--a-line); }
+
+/* kolom pelamar */
+.pl-who { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.pl-avatar {
+  flex: none; display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%;
+  background: var(--a-brand-soft); color: var(--a-brand); font-size: 13px; font-weight: 700;
+}
+.pl-contact { margin-top: 2px; color: var(--a-muted); font-size: 12px; overflow-wrap: anywhere; }
+
+/* dropdown status berwarna (memakai komponen Select landing) */
+.pl-status { width: 156px; }
+.pl-status[data-s="baru"] { --s: 100, 116, 139; }
+.pl-status[data-s="screening"] { --s: 59, 130, 246; }
+.pl-status[data-s="interview"] { --s: 236, 112, 19; }
+.pl-status[data-s="diterima"] { --s: 22, 163, 74; }
+.pl-status[data-s="ditolak"] { --s: 220, 38, 38; }
+.lw-ui.pl-status button[role="combobox"] {
+  background: rgba(var(--s), 0.12);
+  border-color: rgba(var(--s), 0.32);
+  color: rgb(var(--s));
+  font-weight: 600;
+}
+
+/* Tabel: biarkan popover dropdown keluar dari tabel di layar lebar */
+.lw-scroll.pl-menu { overflow: visible; }
+@media (max-width: 1280px) {
+  .lw-scroll.pl-menu { overflow-x: auto; padding-bottom: 190px; margin-bottom: -190px; }
+}
+
+/* footer: info jumlah + pagination landing */
+.pl-pager {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 14px 20px; border-top: 1px solid var(--a-line); color: var(--a-muted); font-size: 13px;
+}
+
+@keyframes pl-rise { from { transform: scaleY(0); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .pl-spark span { animation: none; }
+}
